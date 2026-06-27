@@ -309,6 +309,11 @@ function bindEvents() {
     };
 
     // 메인 이동
+    document.getElementById("homeCollectionBtn").onclick = () => {
+        showScreen("collectionScreen");
+        renderCollection();
+    };
+
     document.getElementById("backHomeBtn").onclick = () => {
         showScreen("homeScreen");
     };
