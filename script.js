@@ -598,6 +598,7 @@ function startMaking() {
             const finishBtn = document.getElementById("finishBtn");
             finishBtn.disabled = false;
             setTimeout(() => showResult(), 500);
+            finishBtn.style.display = "none";
 
         }
 
