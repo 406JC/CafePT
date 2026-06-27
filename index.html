@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAFE PT</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <h1>☕ CAFE PT</h1>
+
+        <div id="collectionBtn" class="collection-btn">
+            📖
+            <span id="collectionCount">0 / 0</span>
+        </div>
+
+    </header>
+
+    <!-- ================= HOME ================= -->
+
+    <section id="homeScreen" class="screen active">
+
+        <div class="home-box">
+
+            <h2>오늘의 음료를 만들어보세요!</h2>
+
+            <p>
+                음료를 완성하면
+                랜덤으로 팀원을 만날 수 있습니다.
+            </p>
+
+            <button id="startBtn">
+                시작하기
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ================= SELECT ================= -->
+
+    <section id="selectScreen" class="screen">
+
+        <div class="type-tabs">
+            <button class="type-btn active" data-type="coffee">☕ 커피</button>
+            <button class="type-btn" data-type="juice">🧋 논커피</button>
+        </div>
+
+        <div class="builder-wrap">
+
+            <!-- 컵 시각화 -->
+            <div class="cup-col">
+                <svg class="cup-svg" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <clipPath id="liquidClip">
+                            <polygon points="24,20 176,20 156,244 44,244"/>
+                        </clipPath>
+                    </defs>
+                    <polygon points="24,20 176,20 156,244 44,244" fill="rgba(255,255,255,0.28)"/>
+                    <g id="cupLayers" clip-path="url(#liquidClip)"></g>
+                    <g id="cupEffects" clip-path="url(#liquidClip)"></g>
+                    <polygon points="24,20 52,20 32,244 44,244" fill="rgba(255,255,255,0.17)"/>
+                    <polygon points="24,20 176,20 156,244 44,244" fill="none" stroke="#8B5E3C" stroke-width="7" stroke-linejoin="round"/>
+                    <rect x="12" y="7" width="176" height="18" rx="9" fill="#8B5E3C"/>
+                    <rect x="34" y="245" width="132" height="20" rx="10" fill="#8B5E3C"/>
+                    <path d="M 156,90 Q 210,90 210,148 Q 210,206 156,206" fill="none" stroke="#8B5E3C" stroke-width="14" stroke-linecap="round"/>
+                </svg>
+                <div id="ingredientTags" class="ingredient-tags"></div>
+            </div>
+
+            <!-- 단계별 선택 -->
+            <div class="steps-col">
+                <div id="stepProgress" class="step-progress"></div>
+                <div id="stepContent" class="step-content">
+                    <h3 id="stepTitle" class="step-title"></h3>
+                    <div id="stepOpts" class="step-opts"></div>
+                </div>
+                <button id="prevStepBtn" class="prev-step-btn" disabled>← 이전 단계</button>
+            </div>
+
+        </div>
+
+        <button id="makeBtn" class="make-btn" style="display:none">✨ 제조하기</button>
+
+    </section>
+
+    <!-- ================= MAKING ================= -->
+
+    <section id="makingScreen" class="screen">
+
+        <h2>제조중...</h2>
+
+        <div class="animation-area">
+
+            <div id="animationIcon">
+
+                ☕
+
+            </div>
+
+            <div class="progress">
+
+                <div id="progressBar"></div>
+
+            </div>
+
+            <p id="makingText">
+
+                음료를 만드는 중입니다.
+
+            </p>
+
+        </div>
+
+        <button id="finishBtn" disabled>
+
+            제조 완료
+
+        </button>
+
+    </section>
+
+    <!-- ================= RESULT ================= -->
+
+    <section id="resultScreen" class="screen">
+
+        <div class="result-wrap">
+
+            <!-- 왼쪽 -->
+
+            <div class="drink-area">
+
+                <img id="drinkImage" src="" alt="drink">
+
+                <h3 id="drinkName"></h3>
+
+            </div>
+
+            <!-- 오른쪽 -->
+
+            <div class="member-card">
+
+                <div id="newBadge">
+                    ✨ NEW
+                </div>
+
+                <img id="memberImage" src="" alt="member">
+
+                <h2 id="memberName"></h2>
+
+                <h4 id="memberPosition"></h4>
+
+                <ul>
+
+                    <li>혈액형 : <span id="memberBlood"></span></li>
+                    <li>MBTI : <span id="memberMBTI"></span></li>
+                    <li>주요업무 : <span id="memberWork"></span></li>
+                    <li>취미 : <span id="memberHobby"></span></li>
+                    <li>최애음식 : <span id="memberFood"></span></li>
+                    <li>관심사 : <span id="memberInterest"></span></li>
+                    <li>특이사항 : <span id="memberSpecial"></span></li>
+
+                </ul>
+
+                <p id="alreadyCollected"></p>
+
+            </div>
+
+        </div>
+
+        <div class="result-buttons">
+
+            <button id="againBtn">
+
+                다시 만들기
+
+            </button>
+
+            <button id="goCollectionBtn">
+
+                컬렉션
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ================= COLLECTION ================= -->
+
+    <section id="collectionScreen" class="screen">
+
+        <div class="collection-header">
+
+            <h2>
+
+                팀원 컬렉션
+
+            </h2>
+
+            <p id="collectionRate">
+
+                0 / 0
+
+            </p>
+
+        </div>
+
+        <div id="collectionGrid">
+
+            <!-- JS 생성 -->
+
+        </div>
+
+        <div class="collection-footer">
+
+            <button id="backHomeBtn">메인으로</button>
+
+            <button id="resetCollectionBtn">🗑️ 초기화</button>
+
+        </div>
+
+    </section>
+
+    <!-- ================= MEMBER POPUP ================= -->
+
+    <div id="popup" class="popup hidden">
+
+        <div class="popup-content">
+
+            <button id="closePopup">✕</button>
+
+            <div class="popup-body">
+
+                <div class="popup-left">
+                    <img id="popupImage" src="" alt="">
+                </div>
+
+                <div class="popup-right">
+                    <h2 id="popupName"></h2>
+                    <h4 id="popupPosition"></h4>
+                    <ul class="popup-info">
+                        <li>혈액형 : <span id="popupBlood"></span></li>
+                        <li>MBTI : <span id="popupMBTI"></span></li>
+                        <li>주요업무 : <span id="popupWork"></span></li>
+                        <li>취미 : <span id="popupHobby"></span></li>
+                        <li>최애음식 : <span id="popupFood"></span></li>
+                        <li>관심사 : <span id="popupInterest"></span></li>
+                        <li>특이사항 : <span id="popupSpecial"></span></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

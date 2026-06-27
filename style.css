@@ -1,0 +1,1600 @@
+/* ===============================
+   CAFE PT
+   style.css (1/3)
+================================= */
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Pretendard","Noto Sans KR",sans-serif;
+}
+
+body{
+
+    background:#F6F2EA;
+
+    color:#4B382A;
+
+    overflow-x:hidden;
+
+}
+
+/* ================= HEADER ================= */
+
+header{
+
+    width:100%;
+
+    height:70px;
+
+    background:#6F4E37;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 30px;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    z-index:999;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+
+}
+
+header h1{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+}
+
+.collection-btn{
+
+    background:white;
+
+    color:#6F4E37;
+
+    padding:10px 18px;
+
+    border-radius:40px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.collection-btn:hover{
+
+    transform:scale(1.05);
+
+    background:#FFF2D9;
+
+}
+
+/* ================= SCREEN ================= */
+
+.screen{
+
+    display:none;
+
+    width:100%;
+
+    min-height:100vh;
+
+    padding-top:100px;
+
+    padding-bottom:50px;
+
+}
+
+.screen.active{
+
+    display:block;
+
+}
+
+/* ================= HOME ================= */
+
+#homeScreen.active{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(
+        rgba(255,255,255,.4),
+        rgba(255,255,255,.4)
+    ),
+    url("assets/backgrounds/cafe.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+}
+
+.home-box{
+
+    background:rgba(255,255,255,.9);
+
+    width:600px;
+
+    padding:60px;
+
+    border-radius:25px;
+
+    text-align:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+
+}
+
+.home-box h2{
+
+    font-size:40px;
+
+    margin-bottom:20px;
+
+}
+
+.home-box p{
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+
+#startBtn{
+
+    width:220px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:#8B5E3C;
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+#startBtn:hover{
+
+    transform:translateY(-3px);
+
+    background:#A46A3F;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+}
+
+/* ================= BUTTON COMMON ================= */
+
+button{
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+button:active{
+
+    transform:scale(.97);
+
+}
+
+/* ================= SELECT ================= */
+
+#selectScreen{
+
+    max-width:1080px;
+
+    margin:auto;
+
+    padding-left:24px;
+
+    padding-right:24px;
+
+}
+
+.type-tabs{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:14px;
+
+    margin-bottom:36px;
+
+}
+
+.type-btn{
+
+    padding:12px 28px;
+
+    border:2.5px solid #DDD;
+
+    border-radius:40px;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    background:white;
+
+    color:#888;
+
+    transition:.25s;
+
+    font-weight:600;
+
+}
+
+.type-btn.active{
+
+    background:#6F4E37;
+
+    color:white;
+
+    border-color:#6F4E37;
+
+    box-shadow:0 4px 14px rgba(111,78,55,.3);
+
+}
+
+/* ---- 빌더 레이아웃 ---- */
+
+.builder-wrap{
+
+    display:grid;
+
+    grid-template-columns:240px 1fr;
+
+    gap:44px;
+
+    align-items:start;
+
+}
+
+/* ---- 컵 컬럼 ---- */
+
+.cup-col{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:20px;
+
+    position:sticky;
+
+    top:90px;
+
+}
+
+.cup-svg{
+
+    width:100%;
+
+    max-width:220px;
+
+    filter:drop-shadow(0 12px 24px rgba(111,78,55,.25));
+
+    overflow:visible;
+
+}
+
+.ingredient-tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    justify-content:center;
+
+    max-width:220px;
+
+}
+
+.ing-tag{
+
+    background:#6F4E37;
+
+    color:white;
+
+    padding:4px 12px;
+
+    border-radius:12px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:.3px;
+
+    animation:tagPop .3s cubic-bezier(.34,1.56,.64,1);
+
+}
+
+/* ---- 스텝 컬럼 ---- */
+
+.steps-col{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:36px 32px;
+
+    box-shadow:0 8px 32px rgba(0,0,0,.08);
+
+}
+
+.step-progress{
+
+    display:flex;
+
+    align-items:center;
+
+    margin-bottom:32px;
+
+}
+
+.step-dot{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    background:#EEE;
+
+    color:#AAA;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:700;
+
+    font-size:14px;
+
+    transition:.28s cubic-bezier(.34,1.56,.64,1);
+
+    cursor:default;
+
+    flex-shrink:0;
+
+    user-select:none;
+
+}
+
+.step-dot.clickable{ cursor:pointer; }
+
+.step-dot.active{
+
+    background:#8B5E3C;
+
+    color:white;
+
+    transform:scale(1.2);
+
+    box-shadow:0 4px 16px rgba(139,94,60,.4);
+
+}
+
+.step-dot.done{
+
+    background:#6F4E37;
+
+    color:white;
+
+    font-size:16px;
+
+}
+
+.step-connector{
+
+    flex:1;
+
+    height:3px;
+
+    background:#EEE;
+
+    transition:background .4s;
+
+    max-width:60px;
+
+}
+
+.step-connector.done{ background:#6F4E37; }
+
+.step-content{
+
+    transition:opacity .18s, transform .18s;
+
+}
+
+.step-content.transitioning{
+
+    opacity:0;
+
+    transform:translateX(10px);
+
+}
+
+.step-title{
+
+    text-align:center;
+
+    font-size:21px;
+
+    font-weight:700;
+
+    color:#4B382A;
+
+    margin-bottom:24px;
+
+    font-family:Georgia, serif;
+
+    text-wrap:balance;
+
+}
+
+.step-opts{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+    margin-bottom:24px;
+
+}
+
+.step-opt{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:18px 10px;
+
+    border:2.5px solid #EFE7DC;
+
+    border-radius:18px;
+
+    background:#FBF8F4;
+
+    cursor:pointer;
+
+    transition:.22s;
+
+    font-family:inherit;
+
+    animation:optIn .3s ease both;
+
+}
+
+.step-opt:hover{
+
+    border-color:#8B5E3C;
+
+    background:#F5EDE3;
+
+    transform:translateY(-3px);
+
+    box-shadow:0 6px 18px rgba(139,94,60,.14);
+
+}
+
+.step-opt.selected{
+
+    border-color:#6F4E37;
+
+    background:#6F4E37;
+
+    color:white;
+
+    transform:scale(1.04);
+
+    box-shadow:0 6px 22px rgba(111,78,55,.35);
+
+}
+
+.opt-emoji{
+
+    font-size:30px;
+
+    line-height:1;
+
+    display:block;
+
+}
+
+.opt-text{
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.prev-step-btn{
+
+    display:block;
+
+    margin:0 auto;
+
+    background:none;
+
+    border:2px solid #DDD;
+
+    border-radius:30px;
+
+    padding:8px 22px;
+
+    cursor:pointer;
+
+    color:#999;
+
+    font-size:14px;
+
+    transition:.2s;
+
+}
+
+.prev-step-btn:hover:not(:disabled){
+
+    border-color:#8B5E3C;
+
+    color:#6F4E37;
+
+}
+
+.prev-step-btn:disabled{
+
+    opacity:.3;
+
+    cursor:default;
+
+    transform:none !important;
+
+}
+
+/* ---- 제조 버튼 ---- */
+
+.make-btn{
+
+    display:block;
+
+    margin:36px auto 0;
+
+    width:260px;
+
+    height:68px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:linear-gradient(135deg,#8B5E3C 0%,#C8860A 100%);
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 28px rgba(139,94,60,.45);
+
+    letter-spacing:.5px;
+
+    animation:makeBtnIn .55s cubic-bezier(.34,1.56,.64,1);
+
+}
+
+.make-btn:hover{
+
+    transform:translateY(-4px) scale(1.03) !important;
+
+    box-shadow:0 14px 36px rgba(139,94,60,.55) !important;
+
+}
+
+/* ---- SVG 레이어 애니메이션 ---- */
+
+.liquid-layer{
+
+    transform-box:fill-box;
+
+    transform-origin:50% 100%;
+
+    animation:liquidFill .65s cubic-bezier(.34,1.56,.64,1) forwards;
+
+}
+
+.bubble-particle{
+
+    animation:bubbleUp .9s ease-out forwards;
+
+}
+
+@keyframes liquidFill{
+
+    from{ transform:scaleY(0); }
+
+    to  { transform:scaleY(1); }
+
+}
+
+@keyframes bubbleUp{
+
+    from{ transform:translateY(0); opacity:.55; }
+
+    to  { transform:translateY(-55px); opacity:0; }
+
+}
+
+@keyframes tagPop{
+
+    from{ transform:scale(0); opacity:0; }
+
+    to  { transform:scale(1); opacity:1; }
+
+}
+
+@keyframes optIn{
+
+    from{ opacity:0; transform:translateY(10px); }
+
+    to  { opacity:1; transform:translateY(0); }
+
+}
+
+@keyframes makeBtnIn{
+
+    from{ opacity:0; transform:scale(.7) translateY(18px); }
+
+    to  { opacity:1; transform:scale(1) translateY(0); }
+
+}
+
+@keyframes cupCelebrate{
+
+    0%  { transform:rotate(0); }
+
+    20% { transform:rotate(-6deg); }
+
+    40% { transform:rotate(6deg); }
+
+    60% { transform:rotate(-4deg); }
+
+    80% { transform:rotate(4deg); }
+
+    100%{ transform:rotate(0); }
+
+}
+
+/* ===================================
+   CAFE PT
+   style.css (2/3)
+   제조 화면 + 결과 화면
+=================================== */
+
+
+/* ==========================
+   MAKING SCREEN
+========================== */
+
+#makingScreen{
+
+    max-width:900px;
+    margin:auto;
+    text-align:center;
+
+}
+
+#makingScreen h2{
+
+    font-size:38px;
+    margin-bottom:40px;
+    color:#6F4E37;
+
+}
+
+.animation-area{
+
+    background:#fff;
+
+    padding:60px;
+
+    border-radius:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+
+}
+
+#animationIcon{
+
+    font-size:110px;
+
+    margin-bottom:35px;
+
+    animation: bounce 1.2s infinite;
+
+}
+
+.progress{
+
+    width:100%;
+
+    height:24px;
+
+    background:#ddd;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    margin:30px auto;
+
+}
+
+#progressBar{
+
+    width:0%;
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        #8B5E3C,
+        #D39B5A
+    );
+
+    transition:.3s;
+
+}
+
+#makingText{
+
+    margin-top:20px;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#6F4E37;
+
+}
+
+#finishBtn{
+
+    margin-top:45px;
+
+    width:240px;
+
+    height:65px;
+
+    border:none;
+
+    border-radius:40px;
+
+    background:#6F4E37;
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+#finishBtn:disabled{
+
+    background:#bbb;
+
+    cursor:not-allowed;
+
+}
+
+/* ==========================
+   RESULT SCREEN
+========================== */
+
+#resultScreen{
+
+    max-width:1200px;
+
+    margin:auto;
+
+}
+
+.result-wrap{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:40px;
+
+    align-items:center;
+
+}
+
+.drink-area{
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.1);
+
+}
+
+#drinkImage{
+
+    width:280px;
+
+    max-width:100%;
+
+    margin-bottom:20px;
+
+}
+
+#drinkName{
+
+    font-size:30px;
+
+    color:#6F4E37;
+
+}
+
+.member-card{
+
+    position:relative;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+    animation: cardAppear .5s ease;
+
+}
+
+#memberImage{
+
+    width:220px;
+
+    height:220px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:8px solid #F3E5D5;
+
+    margin-bottom:25px;
+
+}
+
+#memberName{
+
+    font-size:34px;
+
+    color:#6F4E37;
+
+    margin-bottom:10px;
+
+}
+
+#memberPosition{
+
+    color:#8B5E3C;
+
+    margin-bottom:18px;
+
+}
+
+#memberIntro{
+
+    line-height:1.8;
+
+    margin-bottom:25px;
+
+}
+
+.member-card ul{
+
+    list-style:none;
+
+    text-align:left;
+
+    display:inline-block;
+
+    line-height:2;
+
+}
+
+#alreadyCollected{
+
+    margin-top:25px;
+
+    font-size:18px;
+
+    color:#A94442;
+
+    font-weight:bold;
+
+}
+
+/* ==========================
+   NEW BADGE
+========================== */
+
+#newBadge{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    background:#FFCC00;
+
+    color:#6F4E37;
+
+    padding:10px 18px;
+
+    border-radius:40px;
+
+    font-weight:bold;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+    animation: shine 1.5s infinite;
+
+}
+
+/* ==========================
+   RESULT BUTTONS
+========================== */
+
+.result-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    margin-top:50px;
+
+}
+
+.result-buttons button{
+
+    width:200px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:40px;
+
+    background:#6F4E37;
+
+    color:white;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+}
+
+.result-buttons button:hover{
+
+    background:#8B5E3C;
+
+}
+
+/* ==========================
+   ANIMATION
+========================== */
+
+@keyframes bounce{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-15px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes cardAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.8);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+@keyframes shine{
+
+    0%{
+
+        transform:rotate(-5deg);
+
+    }
+
+    50%{
+
+        transform:rotate(5deg);
+
+    }
+
+    100%{
+
+        transform:rotate(-5deg);
+
+    }
+
+}
+
+
+/* ===================================
+   CAFE PT
+   style.css (3/3)
+   컬렉션 + 팝업 + 반응형 + 마무리
+=================================== */
+
+
+/* ==========================
+   COLLECTION SCREEN
+========================== */
+
+#collectionScreen{
+
+    max-width:1100px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.collection-header{
+
+    margin-bottom:30px;
+
+}
+
+.collection-footer{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:16px;
+
+    margin-top:30px;
+
+}
+
+#backHomeBtn{
+
+    padding:14px 32px;
+
+    border:2.5px solid #8B5E3C;
+
+    border-radius:40px;
+
+    background:white;
+
+    color:#8B5E3C;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    letter-spacing:.3px;
+
+}
+
+#backHomeBtn:hover{
+
+    background:#8B5E3C;
+
+    color:white;
+
+    box-shadow:0 6px 18px rgba(139,94,60,.3);
+
+}
+
+#resetCollectionBtn{
+
+    padding:14px 28px;
+
+    border:2px solid #C0392B;
+
+    border-radius:40px;
+
+    background:white;
+
+    color:#C0392B;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+#resetCollectionBtn:hover{
+
+    background:#C0392B;
+
+    color:white;
+
+}
+
+#collectionRate{
+
+    font-size:20px;
+
+    color:#6F4E37;
+
+    margin-top:10px;
+
+}
+
+/* GRID */
+
+#collectionGrid{
+
+    display:grid;
+
+    grid-template-columns:repeat(5, 1fr);
+
+    gap:15px;
+
+    padding:20px;
+
+}
+
+/* CARD */
+
+.collection-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    height:120px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    box-shadow:0 5px 12px rgba(0,0,0,.08);
+
+    font-weight:bold;
+
+    color:#6F4E37;
+
+}
+
+.collection-card:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* LOCKED */
+
+.locked{
+
+    background:#ddd;
+
+    color:#888;
+
+    filter:grayscale(1);
+
+}
+
+/* ==========================
+   POPUP
+========================== */
+
+.popup{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(0,0,0,.6);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:9999;
+
+}
+
+.popup.hidden{
+
+    display:none;
+
+}
+
+.popup-content{
+
+    background:#fff;
+
+    padding:36px 40px;
+
+    border-radius:25px;
+
+    width:660px;
+
+    max-width:95vw;
+
+    position:relative;
+
+    animation: pop .3s ease;
+
+}
+
+.popup-body{
+
+    display:grid;
+
+    grid-template-columns:160px 1fr;
+
+    gap:32px;
+
+    align-items:start;
+
+}
+
+.popup-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+.popup-left img{
+
+    width:140px;
+
+    height:140px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:5px solid #F3E5D5;
+
+}
+
+.popup-right h2{
+
+    font-size:22px;
+
+    color:#4B382A;
+
+    margin-bottom:4px;
+
+}
+
+.popup-right h4{
+
+    font-size:14px;
+
+    color:#8B5E3C;
+
+    margin-bottom:14px;
+
+    font-weight:500;
+
+}
+
+.popup-info{
+
+    list-style:none;
+
+    text-align:left;
+
+    width:100%;
+
+    margin-top:16px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+.popup-info li{
+
+    display:flex;
+
+    gap:6px;
+
+    color:#4B382A;
+
+}
+
+.popup-info span{
+
+    font-weight:600;
+
+    color:#6F4E37;
+
+}
+
+#closePopup{
+
+    position:absolute;
+
+    top:15px;
+
+    right:15px;
+
+    background:none;
+
+    border:none;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+}
+
+/* ==========================
+   SCREEN BUTTON COMMON
+========================== */
+
+.screen button{
+
+    transition:.25s;
+
+}
+
+.screen button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 900px){
+
+    .result-wrap{
+
+        grid-template-columns:1fr;
+
+    }
+
+    #collectionGrid{
+
+        grid-template-columns:repeat(3,1fr);
+
+    }
+
+    .home-box{
+
+        width:90%;
+
+        padding:40px;
+
+    }
+
+    .builder-wrap{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .cup-col{
+
+        position:static;
+
+        flex-direction:row;
+
+        align-items:flex-end;
+
+        gap:20px;
+
+    }
+
+    .cup-svg{
+
+        max-width:130px;
+
+        flex-shrink:0;
+
+    }
+
+    .ingredient-tags{
+
+        justify-content:flex-start;
+
+    }
+
+}
+
+@media (max-width: 500px){
+
+    #collectionGrid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    header h1{
+
+        font-size:20px;
+
+    }
+
+    .type-btn{
+
+        width:140px;
+
+        font-size:16px;
+
+    }
+
+}
+
+/* ==========================
+   POP ANIMATION
+========================== */
+
+@keyframes pop{
+
+    from{
+
+        transform:scale(.7);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
