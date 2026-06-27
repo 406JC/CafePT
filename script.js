@@ -597,7 +597,7 @@ function startMaking() {
 
             const finishBtn = document.getElementById("finishBtn");
             finishBtn.disabled = false;
-            setTimeout(() => finishBtn.click(), 500);
+            setTimeout(() => showResult(), 500);
 
         }
 
