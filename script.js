@@ -653,7 +653,6 @@ function renderResult(member) {
 
         document.getElementById("memberName").innerText = "실패";
         document.getElementById("memberPosition").innerText = "";
-        document.getElementById("memberIntro").innerText = "";
         document.getElementById("memberImage").src = "";
 
         badge.style.display = "none";
