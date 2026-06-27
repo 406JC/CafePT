@@ -119,10 +119,31 @@ const members = [
         special: "-",
         image: "assets/members/member6.png",
         recipe: {
+            type: "coffee",
+            size: null,
+            shot: ["1샷", "2샷"],
+            milk: "일반",
+            syrup: ["바닐라", "헤이즐넛"],
+            topping: "없음"
+        }
+    },
+    {
+        id: 6,
+        name: "정주찬",
+        position: "NixPen 2.0 매니저",
+        blood: "-",
+        mbti: "ISTJ",
+        work: "-",
+        hobby: "-",
+        food: "-",
+        interest: "-",
+        special: "-",
+        image: "assets/members/member6.png",
+        recipe: {
             type: "juice",
-            size: "M",
-            main: "루이보스 티백",
-            ice: "없음"
+            size: null,
+            main: ["아이스티 가루", "일반 탄산"],
+            ice: "적게"
         }
     },
     {
@@ -629,6 +650,8 @@ function showResult() {
 
             return Object.keys(r).every(k => {
                 if (k === "type") return true;
+                if (r[k] === null) return true; // null이면 무관
+                if (Array.isArray(r[k])) return r[k].includes(selected[k]); // 배열이면 포함 여부
                 return r[k] === selected[k];
             });
         });
@@ -707,12 +730,13 @@ function renderResult(member) {
 
 function updateCollectionUI() {
 
+    const uniqueCount = [...new Set(members.map(m => m.id))].length;
     const count = document.getElementById("collectionCount");
 
-    count.innerText = `${collection.length} / ${members.length}`;
+    count.innerText = `${collection.length} / ${uniqueCount}`;
 
     document.getElementById("collectionRate").innerText =
-        `${collection.length} / ${members.length}명`;
+        `${collection.length} / ${uniqueCount}명`;
 }
 
 
@@ -723,29 +747,94 @@ function updateCollectionUI() {
 function renderCollection() {
 
     const grid = document.getElementById("collectionGrid");
-
     grid.innerHTML = "";
 
-    members.forEach(m => {
+    // 중복 id 제거 (정주찬처럼 레시피 여러 개인 경우)
+    const uniqueMembers = members.filter((m, idx, arr) =>
+        arr.findIndex(x => x.id === m.id) === idx
+    );
 
-        const isGot = collection.includes(m.id);
+    // 그룹 분류
+    const groups = {
+        left:  uniqueMembers.filter(m => m.position.includes("2.0")),
+        right: uniqueMembers.filter(m => !m.position.includes("2.0")),
+    };
 
-        const div = document.createElement("div");
+    // 2열 컬럼 래퍼
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "1fr 1fr";
+    grid.style.gap = "20px";
+    grid.style.alignItems = "start";
 
-        div.className = "collection-card " + (isGot ? "" : "locked");
+    ["left", "right"].forEach(side => {
+        const col = document.createElement("div");
+        col.className = "collection-col";
 
-        div.innerText = isGot ? m.name : "???";
+        // 컬럼 라벨
+        const label = document.createElement("div");
+        label.className = "col-label";
+        label.innerText = side === "left" ? "NixPen 2.0" : "NixPen 5.0";
+        col.appendChild(label);
 
-        div.onclick = () => {
+        const cardGrid = document.createElement("div");
+        cardGrid.className = "collection-col-grid";
 
-            if (!isGot) return;
+        groups[side].forEach(m => {
+            const isGot = collection.includes(m.id);
+            cardGrid.appendChild(isGot ? makeGotCard(m) : makeLockedCard(m));
+        });
 
-            showPopup(m);
-
-        };
-
-        grid.appendChild(div);
+        col.appendChild(cardGrid);
+        grid.appendChild(col);
     });
+}
+
+function makeGotCard(m) {
+    const div = document.createElement("div");
+    div.className = "collection-card";
+    div.innerText = m.name;
+    div.onclick = () => showPopup(m);
+    return div;
+}
+
+function makeLockedCard(m) {
+    const hint = buildHint(m.recipe);
+    const wrapper = document.createElement("div");
+    wrapper.className = "flip-card";
+    wrapper.innerHTML = `
+        <div class="flip-inner">
+            <div class="flip-front locked">
+                <span class="flip-q">???</span>
+            </div>
+            <div class="flip-back">
+                <span class="flip-hint-title">🔍 힌트</span>
+                <span class="flip-hint-text">${hint}</span>
+            </div>
+        </div>
+    `;
+    wrapper.onclick = () => wrapper.classList.toggle("flipped");
+    return wrapper;
+}
+
+function buildHint(recipe) {
+    const fmt = (v) => {
+        if (v === null) return "무관";
+        if (Array.isArray(v)) return v.join(" / ");
+        return v;
+    };
+    const parts = [];
+    if (recipe.type === "coffee") {
+        if (recipe.size    !== undefined) parts.push(`사이즈: ${fmt(recipe.size)}`);
+        if (recipe.shot    !== undefined) parts.push(`샷: ${fmt(recipe.shot)}`);
+        if (recipe.milk    !== undefined) parts.push(`우유: ${fmt(recipe.milk)}`);
+        if (recipe.syrup   !== undefined) parts.push(`시럽: ${fmt(recipe.syrup)}`);
+        if (recipe.topping !== undefined) parts.push(`토핑: ${fmt(recipe.topping)}`);
+    } else {
+        if (recipe.size !== undefined) parts.push(`사이즈: ${fmt(recipe.size)}`);
+        if (recipe.main !== undefined) parts.push(`주재료: ${fmt(recipe.main)}`);
+        if (recipe.ice  !== undefined) parts.push(`얼음: ${fmt(recipe.ice)}`);
+    }
+    return parts.join("<br>");
 }
 
 

@@ -206,6 +206,40 @@ header h1{
 
 }
 
+#homeCollectionBtn{
+
+    width:220px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:#8B5E3C;
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    margin-top:16px;
+
+}
+
+#homeCollectionBtn:hover{
+
+    transform:translateY(-3px);
+
+    background:#A46A3F;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+}
+
 /* ================= BUTTON COMMON ================= */
 
 button{
@@ -1149,7 +1183,7 @@ button:active{
 
 #collectionScreen{
 
-    max-width:1100px;
+    max-width:600px;
 
     margin:auto;
 
@@ -1261,6 +1295,29 @@ button:active{
 
 }
 
+.collection-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.collection-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.col-label {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #6F4E37;
+    background: #F3E5D5;
+    border-radius: 12px;
+    padding: 8px 0;
+    margin-bottom: 4px;
+}
+
 /* CARD */
 
 .collection-card{
@@ -1269,7 +1326,7 @@ button:active{
 
     border-radius:18px;
 
-    height:120px;
+    height:220px;
 
     display:flex;
 
@@ -1284,6 +1341,8 @@ button:active{
     box-shadow:0 5px 12px rgba(0,0,0,.08);
 
     font-weight:bold;
+
+    font-size:18px;
 
     color:#6F4E37;
 
@@ -1305,6 +1364,71 @@ button:active{
 
     filter:grayscale(1);
 
+}
+
+/* FLIP CARD */
+
+.flip-card {
+    height: auto;
+    min-height: 160px;
+    perspective: 800px;
+    cursor: pointer;
+}
+
+.flip-inner {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    transition: transform 0.5s ease;
+    transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 12px rgba(0,0,0,.08);
+}
+
+.flip-front {
+    background: #ddd;
+    color: #888;
+}
+
+.flip-q {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.flip-back {
+    background: #6F4E37;
+    color: white;
+    transform: rotateY(180deg);
+    padding: 12px;
+    gap: 6px;
+}
+
+.flip-hint-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.flip-hint-text {
+    font-size: 13px;
+    line-height: 1.9;
+    text-align: center;
 }
 
 /* ==========================
