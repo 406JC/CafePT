@@ -13,40 +13,62 @@ const members = [
         id: 1,
         name: "이유리",
         position: "의원개발3팀 팀장",
-        blood: "-",
-        mbti: "ENFP",
-        work: "-",
-        hobby: "-",
-        food: "-",
-        interest: "-",
+        blood: "A",
+        mbti: "INFJ-T",
+        work: "차트 수납, 청구, 고시",
+        hobby: "음악감상",
+        food: "만두",
+        interest: "맛집 탐방",
         special: "-",
         image: "assets/members/member1.png",
         recipe: {
             type: "coffee",
-            size: "M",
-            shot: "2샷",
-            milk: "오트밀크",
-            syrup: "바닐라",
-            topping: "휘핑"
+            size: ["S", "M"],
+            shot: null,
+            milk: null,
+            syrup: ["없음", "헤이즐넛"],
+            topping: "없음"
         }
     },
     {
         id: 2,
         name: "한제현",
         position: "NixPen 2.0 시니어매니저",
-        blood: "-",
-        mbti: "INTJ",
-        work: "-",
-        hobby: "-",
+        blood: "A",
+        mbti: "ISTJ",
+        work: "개발 및 운영 (청구, 계산)",
+        hobby: "유튜브 감상",
         food: "-",
-        interest: "-",
+        interest: "건강",
         special: "-",
         image: "assets/members/member2.png",
         recipe: {
             type: "juice",
-            size: "M",
+            size: null,
             main: "루이보스 티백",
-            ice: "많이"
+            water: "일반 물",
+            ice: null
+        }
+    },
+    {
+        id: 3,
+        name: "임병철",
+        position: "NixPen 2.0 매니저",
+        blood: "O",
+        mbti: "ISTP",
+        work: "개발",
+        hobby: "게임",
+        food: "회",
+        interest: "전자기기",
+        special: "-",
+        image: "assets/members/member2.png",
+        recipe: {
+            type: "coffee",
+            size: ["M", "L"],
+            shot: null,
+            milk: "없음",
+            syrup: "없음",
+            topping: "없음"
         }
     },
     {
@@ -63,67 +85,47 @@ const members = [
         image: "assets/members/member2.png",
         recipe: {
             type: "juice",
-            size: "M",
+            size: null,
             main: "아이스티 가루",
-            ice: "많이"
+            water: "일반 물",
+            ice: null
         }
     },
     {
         id: 4,
         name: "남민우",
         position: "NixPen 5.0 매니저",
-        blood: "-",
-        mbti: "INTJ",
-        work: "-",
-        hobby: "-",
-        food: "-",
+        blood: "B",
+        mbti: "INTP",
+        work: "개발, 헬로100 연동, 키오스크, 수탁연동, Posivision, 카드단말기 연동, 그외 전반적인 기능",
+        hobby: "야구시청",
+        food: "햄버거, 샌드위치",
         interest: "-",
         special: "-",
         image: "assets/members/member2.png",
-        recipe: {
-            type: "juice",
-            size: "L",
-            main: "제로 탄산",
-            ice: "적게"
-        }
-    },
-    {
-        id: 5,
-        name: "윤지석",
-        position: "NixPen 2.0 매니저",
-        blood: "-",
-        mbti: "INTJ",
-        work: "-",
-        hobby: "-",
-        food: "-",
-        interest: "-",
-        special: "-",
-        image: "assets/members/member2.png",
-        recipe: {
-            type: "juice",
-            size: "S",
-            main: "일반 탄산",
-            ice: "없음"
-        }
-    },
-    {
-        id: 6,
-        name: "정주찬",
-        position: "NixPen 2.0 매니저",
-        blood: "-",
-        mbti: "ISTJ",
-        work: "-",
-        hobby: "-",
-        food: "-",
-        interest: "-",
-        special: "-",
-        image: "assets/members/member6.png",
         recipe: {
             type: "coffee",
-            size: null,
-            shot: ["1샷", "2샷"],
-            milk: "일반",
-            syrup: ["바닐라", "헤이즐넛"],
+            size: ["M", "L"],
+            shot: null,
+            milk: "없음",
+            syrup: "없음",
+            topping: "없음"
+        }
+        position: "NixPen 2.0 매니저",
+        blood: "-",
+        mbti: "INTJ",
+        work: "-",
+        hobby: "-",
+        food: "-",
+        interest: "-",
+        special: "-",
+        image: "assets/members/member2.png",
+        recipe: {
+            type: "coffee",
+            size: ["M", "L", "XL"],
+            shot: null,
+            milk: "없음",
+            syrup: "없음",
             topping: "없음"
         }
     },
@@ -131,19 +133,103 @@ const members = [
         id: 6,
         name: "정주찬",
         position: "NixPen 2.0 매니저",
-        blood: "-",
+        blood: "AB",
         mbti: "ISTJ",
-        work: "-",
-        hobby: "-",
-        food: "-",
-        interest: "-",
-        special: "-",
+        work: "개발 및 이관 해결",
+        hobby: "연극 뮤지컬 감상",
+        food: "회 종류",
+        interest: "주식 재테크",
+        special: "NixPen 2.0, 5.0 eGhis 1.0, 2.0 개발 경험",
+        image: "assets/members/member6.png",
+        recipe: {
+            type: "coffee",
+            size: ["M", "L"],
+            shot: null,
+            milk: "없음",
+            syrup: "헤이즐넛",
+            topping: "없음"
+        }
+    },
+    {
+        id: 6,
+        name: "정주찬",
+        position: "NixPen 2.0 매니저",
+        blood: "AB",
+        mbti: "ISTJ",
+        work: "개발 및 이관 해결",
+        hobby: "연극 뮤지컬 감상",
+        food: "회 종류",
+        interest: "주식 재테크",
+        special: "NixPen 2.0, 5.0 eGhis 1.0, 2.0 개발 경험",
+        image: "assets/members/member6.png",
+        recipe: {
+            type: "coffee",
+            size: ["M", "L"],
+            shot: null,
+            milk: "일반",
+            syrup: "카라멜",
+            topping: "없음"
+        }
+    },
+    {
+        id: 6,
+        name: "정주찬",
+        position: "NixPen 2.0 매니저",
+        blood: "AB",
+        mbti: "ISTJ",
+        work: "개발 및 이관 해결",
+        hobby: "연극 뮤지컬 감상",
+        food: "회 종류",
+        interest: "주식 재테크",
+        special: "NixPen 2.0, 5.0 eGhis 1.0, 2.0 개발 경험",
         image: "assets/members/member6.png",
         recipe: {
             type: "juice",
-            size: null,
-            main: ["아이스티 가루", "일반 탄산"],
+            size: ["M", "L"],
+            main: "레몬",
+            water: ["제로 탄산", "일반 탄산", "일반 물"],
             ice: "적게"
+        }
+    },
+    {
+        id: 6,
+        name: "정주찬",
+        position: "NixPen 2.0 매니저",
+        blood: "AB",
+        mbti: "ISTJ",
+        work: "개발 및 이관 해결",
+        hobby: "연극 뮤지컬 감상",
+        food: "회 종류",
+        interest: "주식 재테크",
+        special: "NixPen 2.0, 5.0 eGhis 1.0, 2.0 개발 경험",
+        image: "assets/members/member6.png",
+        recipe: {
+            type: "juice",
+            size: ["M", "L"],
+            main: "아이스티 가루",
+            water: "일반 물",
+            ice: "적게"
+        }
+    },
+    {
+        id: 7,
+        name: "정제형",
+        position: "NixPen 5.0 매니저",
+        blood: "B",
+        mbti: "INTJ",
+        work: "차트 개발 및 유지보수",
+        hobby: "운동, 주말에 하루종일 게임",
+        food: "-",
+        interest: "-",
+        special: "고양이를 좋아하는데 털 알러지 있음",
+        image: "assets/members/member2.png",
+        recipe: {
+            type: "coffee",
+            size: ["M", "L", "XL"],
+            shot: null,
+            milk: "없음",
+            syrup: "헤이즐넛",
+            topping: null
         }
     },
     {
@@ -160,9 +246,10 @@ const members = [
         image: "assets/members/member2.png",
         recipe: {
             type: "juice",
-            size: "L",
-            main: "아이스티 가루",
-            ice: "적게"
+            size: null,
+            main: "레몬",
+            water: "일반 물",
+            ice: "보통"
         }
     }
 ];
@@ -198,9 +285,7 @@ const STEPS = {
             key: "shot", label: "샷 추가를 선택하세요", icon: "☕", color: "#2C1208",
             options: [
                 { v: "1샷", e: "☕" },
-                { v: "2샷", e: "☕☕" },
-                { v: "3샷", e: "💪" },
-                { v: "4샷", e: "⚡" }
+                { v: "2샷", e: "☕☕" }
             ]
         },
         {
@@ -216,7 +301,8 @@ const STEPS = {
             options: [
                 { v: "바닐라",   e: "🍦" },
                 { v: "카라멜",   e: "🍮" },
-                { v: "헤이즐넛", e: "🌰" }
+                { v: "헤이즐넛", e: "🌰" },
+                { v: "없음",     e: "🚫" }
             ]
         },
         {
@@ -244,14 +330,22 @@ const STEPS = {
             options: [
                 { v: "루이보스 티백", e: "🍵" },
                 { v: "아이스티 가루", e: "🫖" },
-                { v: "제로 탄산",    e: "🫧" },
-                { v: "일반 탄산",    e: "🥤" }
+                { v: "레몬",         e: "🍋" }
+            ]
+        },
+        {
+            key: "water", label: "물 베이스를 선택하세요", icon: "💧", color: "#AED6F1",
+            options: [
+                { v: "일반 물",  e: "💧" },
+                { v: "제로 탄산", e: "🫧" },
+                { v: "일반 탄산", e: "🥤" }
             ]
         },
         {
             key: "ice", label: "얼음을 선택하세요", icon: "🧊", color: "#A8D8EA",
             options: [
                 { v: "많이", e: "🧊🧊" },
+                { v: "보통", e: "🧊" },
                 { v: "적게", e: "🧊" },
                 { v: "없음", e: "🚫" }
             ]
@@ -396,6 +490,24 @@ function showIngredientUI() {
     document.getElementById("cupEffects").innerHTML = "";
     document.getElementById("ingredientTags").innerHTML = "";
     document.getElementById("makeBtn").style.display = "none";
+
+    // member-card 원래 구조로 초기화
+    document.querySelector(".member-card").innerHTML = `
+        <div id="newBadge" style="display:none">✨ NEW</div>
+        <img id="memberImage" src="" alt="member">
+        <h2 id="memberName"></h2>
+        <h4 id="memberPosition"></h4>
+        <ul>
+            <li>혈액형 : <span id="memberBlood"></span></li>
+            <li>MBTI : <span id="memberMBTI"></span></li>
+            <li>주요업무 : <span id="memberWork"></span></li>
+            <li>취미 : <span id="memberHobby"></span></li>
+            <li>최애음식 : <span id="memberFood"></span></li>
+            <li>관심사 : <span id="memberInterest"></span></li>
+            <li>특이사항 : <span id="memberSpecial"></span></li>
+        </ul>
+        <p id="alreadyCollected"></p>
+    `;
 
     buildStepProgress();
     renderStep(0);
@@ -638,26 +750,39 @@ function startMaking() {
 
 function showResult() {
 
-    let found = null;
-
-    if (true) {
-
-        found = members.find(m => {
-
-            const r = m.recipe;
-
-            if (currentType !== r.type) return false;
-
-            return Object.keys(r).every(k => {
-                if (k === "type") return true;
-                if (r[k] === null) return true; // null이면 무관
-                if (Array.isArray(r[k])) return r[k].includes(selected[k]); // 배열이면 포함 여부
-                return r[k] === selected[k];
-            });
+    // 매칭되는 멤버 전체 찾기 (중복 id 제거)
+    const allMatched = members.filter(m => {
+        const r = m.recipe;
+        if (currentType !== r.type) return false;
+        return Object.keys(r).every(k => {
+            if (k === "type") return true;
+            if (r[k] === null) return true;
+            if (Array.isArray(r[k])) return r[k].includes(selected[k]);
+            return r[k] === selected[k];
         });
-    }
+    });
 
-    renderResult(found);
+    // 중복 id 제거
+    const uniqueMatched = allMatched.filter((m, idx, arr) =>
+        arr.findIndex(x => x.id === m.id) === idx
+    );
+
+    if (uniqueMatched.length === 0) {
+        renderResult([]);
+    } else {
+        // 미수집 우선
+        const notCollected = uniqueMatched.filter(m => !collection.includes(m.id));
+        const allCollected = notCollected.length === 0;
+
+        if (allCollected) {
+            // 전원 수집됐으면 전체 표시
+            renderResult(uniqueMatched);
+        } else {
+            // 미수집 중 랜덤 1명
+            const pick = notCollected[Math.floor(Math.random() * notCollected.length)];
+            renderResult([pick]);
+        }
+    }
 
     showScreen("resultScreen");
 }
@@ -667,15 +792,15 @@ function showResult() {
 // 12. 결과 출력
 // =============================
 
-function renderResult(member) {
+function renderResult(members_list) {
 
     const drinkName = document.getElementById("drinkName");
     const img = document.getElementById("drinkImage");
-
     const badge = document.getElementById("newBadge");
     const already = document.getElementById("alreadyCollected");
+    const memberCard = document.querySelector(".member-card");
 
-    if (!member) {
+    if (members_list.length === 0) {
 
         drinkName.innerText = "❌ 실패한 음료";
         img.src = "assets/drinks/fail.png";
@@ -693,31 +818,62 @@ function renderResult(member) {
     drinkName.innerText = "☕ 완성!";
     img.src = "assets/drinks/latte.png";
 
-    document.getElementById("memberName").innerText = member.name;
-    document.getElementById("memberPosition").innerText = member.position;
-    document.getElementById("memberImage").src = member.image;
+    if (members_list.length === 1) {
 
-    document.getElementById("memberBlood").innerText = member.blood || "-";
-    document.getElementById("memberMBTI").innerText = member.mbti || "-";
-    document.getElementById("memberWork").innerText = member.work || "-";
-    document.getElementById("memberHobby").innerText = member.hobby || "-";
-    document.getElementById("memberFood").innerText = member.food || "-";
-    document.getElementById("memberInterest").innerText = member.interest || "-";
-    document.getElementById("memberSpecial").innerText = member.special || "-";
+        // 1명일 때 기존 방식
+        const member = members_list[0];
 
-    // 컬렉션 처리
-    if (!collection.includes(member.id)) {
+        memberCard.innerHTML = `
+            <div id="newBadge" style="display:none">✨ NEW</div>
+            <img id="memberImage" src="${member.image}" alt="member">
+            <h2 id="memberName">${member.name}</h2>
+            <h4 id="memberPosition">${member.position}</h4>
+            <ul>
+                <li>혈액형 : <span>${member.blood || "-"}</span></li>
+                <li>MBTI : <span>${member.mbti || "-"}</span></li>
+                <li>주요업무 : <span>${member.work || "-"}</span></li>
+                <li>취미 : <span>${member.hobby || "-"}</span></li>
+                <li>최애음식 : <span>${member.food || "-"}</span></li>
+                <li>관심사 : <span>${member.interest || "-"}</span></li>
+                <li>특이사항 : <span>${member.special || "-"}</span></li>
+            </ul>
+            <p id="alreadyCollected"></p>
+        `;
 
-        collection.push(member.id);
-        saveCollection();
+        const newBadgeEl = document.getElementById("newBadge");
+        const alreadyEl = document.getElementById("alreadyCollected");
 
-        badge.style.display = "block";
-        already.innerText = "";
+        if (!collection.includes(member.id)) {
+            collection.push(member.id);
+            saveCollection();
+            newBadgeEl.style.display = "block";
+            alreadyEl.innerText = "";
+        } else {
+            newBadgeEl.style.display = "none";
+            alreadyEl.innerText = "이미 컬렉션에 등록되어 있습니다.";
+        }
 
     } else {
 
-        badge.style.display = "none";
-        already.innerText = "이미 컬렉션에 등록되어 있습니다.";
+        // 여러 명일 때 카드 나란히 표시
+        memberCard.innerHTML = `<p style="font-weight:bold;margin-bottom:12px;">🎉 ${members_list.length}명을 모두 만났어요!</p>`;
+
+        members_list.forEach(member => {
+            const card = document.createElement("div");
+            card.style.cssText = "border:2px solid #8B5E3C;border-radius:14px;padding:12px;margin-bottom:12px;text-align:center;";
+            card.innerHTML = `
+                <img src="${member.image}" alt="${member.name}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
+                <h3 style="margin:6px 0 2px;">${member.name}</h3>
+                <p style="font-size:13px;color:#888;">${member.position}</p>
+            `;
+            card.onclick = () => showPopup(member);
+            memberCard.appendChild(card);
+        });
+
+        const hint = document.createElement("p");
+        hint.style.cssText = "font-size:13px;color:#888;margin-top:8px;";
+        hint.innerText = "카드를 클릭하면 자세히 볼 수 있어요";
+        memberCard.appendChild(hint);
     }
 
     updateCollectionUI();
@@ -830,9 +986,10 @@ function buildHint(recipe) {
         if (recipe.syrup   !== undefined) parts.push(`시럽: ${fmt(recipe.syrup)}`);
         if (recipe.topping !== undefined) parts.push(`토핑: ${fmt(recipe.topping)}`);
     } else {
-        if (recipe.size !== undefined) parts.push(`사이즈: ${fmt(recipe.size)}`);
-        if (recipe.main !== undefined) parts.push(`주재료: ${fmt(recipe.main)}`);
-        if (recipe.ice  !== undefined) parts.push(`얼음: ${fmt(recipe.ice)}`);
+        if (recipe.size  !== undefined) parts.push(`사이즈: ${fmt(recipe.size)}`);
+        if (recipe.main  !== undefined) parts.push(`주재료: ${fmt(recipe.main)}`);
+        if (recipe.water !== undefined) parts.push(`물 베이스: ${fmt(recipe.water)}`);
+        if (recipe.ice   !== undefined) parts.push(`얼음: ${fmt(recipe.ice)}`);
     }
     return parts.join("<br>");
 }
