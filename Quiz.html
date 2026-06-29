@@ -22,7 +22,12 @@
                     팀원 정보를 얼마나 알고 있나요?<br>
                     총 10문제가 랜덤으로 출제됩니다!
                 </p>
+                <input type="text" id="nicknameInput" placeholder="닉네임을 입력하세요" maxlength="10"
+                    style="width:100%;padding:12px 16px;border:2px solid #DDD;border-radius:12px;font-size:16px;margin-bottom:12px;box-sizing:border-box;text-align:center;">
+                <p id="nicknameError" style="color:#e74c3c;font-size:13px;margin-bottom:8px;display:none;">닉네임을 입력해주세요!</p>
+                <p id="alreadyPlayed" style="color:#e74c3c;font-size:13px;margin-bottom:8px;display:none;">이미 이 기기에서 참여했습니다.</p>
                 <button id="startQuizBtn">시작하기</button>
+                <button id="rankBtn" onclick="showRankOnly()" style="margin-top:10px;background:#8B5E3C;">🏆 순위 보기</button>
             </div>
 
             <!-- 퀴즈 진행 -->
@@ -52,16 +57,83 @@
                 <h2>🎉 퀴즈 완료!</h2>
                 <div class="quiz-score" id="quizScore"></div>
                 <div class="quiz-score-label" id="quizScoreLabel"></div>
+                <div id="rankBoard" style="margin:20px 0;text-align:left;"></div>
                 <div class="quiz-result-btns">
-                    <button id="retryBtn">🔄 다시 풀기</button>
                     <button id="backBtn" onclick="location.href='index.html'">🏠 메인으로</button>
                 </div>
+            </div>
+
+            <!-- 순위만 보기 -->
+            <div id="rankOnlyScreen" style="display:none;">
+                <h2>🏆 퀴즈 순위</h2>
+                <div id="rankOnlyBoard" style="margin:20px 0;text-align:left;"></div>
+                <button onclick="document.getElementById('rankOnlyScreen').style.display='none';document.getElementById('quizIntro').style.display='block';">← 돌아가기</button>
             </div>
 
         </div>
     </div>
 
     <script>
+        // ★ 여기에 본인 토큰과 Gist ID 입력
+        const GIST_TOKEN = "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";
+        const GIST_ID    = "a03b3741eb12de5af851c445a539a498";
+        const GIST_FILE  = "quiz_scores.json";
+
+        async function fetchScores() {
+            const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                headers: { Authorization: `token ${GIST_TOKEN}` }
+            });
+            const data = await res.json();
+            return JSON.parse(data.files[GIST_FILE].content || "[]");
+        }
+
+        async function saveScore(nickname, score, total) {
+            const scores = await fetchScores();
+            scores.push({ nickname, score, total, date: new Date().toLocaleDateString("ko-KR") });
+            scores.sort((a, b) => b.score - a.score);
+            await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `token ${GIST_TOKEN}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ files: { [GIST_FILE]: { content: JSON.stringify(scores, null, 2) } } })
+            });
+            return scores;
+        }
+
+        function renderRank(scores, containerId) {
+            const el = document.getElementById(containerId);
+            if (!scores.length) { el.innerHTML = "<p style='color:#888;text-align:center;'>아직 기록이 없어요!</p>"; return; }
+            el.innerHTML = `
+                <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                    <thead>
+                        <tr style="background:#6F4E37;color:white;">
+                            <th style="padding:8px;border-radius:8px 0 0 0;">순위</th>
+                            <th style="padding:8px;">닉네임</th>
+                            <th style="padding:8px;">점수</th>
+                            <th style="padding:8px;border-radius:0 8px 0 0;">날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${scores.map((s, i) => `
+                            <tr style="background:${i % 2 === 0 ? '#FFF9F3' : 'white'};">
+                                <td style="padding:8px;text-align:center;">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</td>
+                                <td style="padding:8px;text-align:center;font-weight:600;">${s.nickname}</td>
+                                <td style="padding:8px;text-align:center;">${s.score} / ${s.total}</td>
+                                <td style="padding:8px;text-align:center;color:#888;">${s.date}</td>
+                            </tr>`).join("")}
+                    </tbody>
+                </table>`;
+        }
+
+        async function showRankOnly() {
+            document.getElementById("quizIntro").style.display = "none";
+            document.getElementById("rankOnlyScreen").style.display = "block";
+            document.getElementById("rankOnlyBoard").innerHTML = "<p style='text-align:center;color:#888;'>불러오는 중...</p>";
+            const scores = await fetchScores();
+            renderRank(scores, "rankOnlyBoard");
+        }
         const members = [
             { id:1, name:"이유리",  position:"팀장",           blood:"A",  mbti:"INFJ-T", work:"차트 수납, 청구, 고시",   hobby:"음악감상",           food:"만두",           interest:"맛집 탐방",  special:null, image:"assets/members/member1.png" },
             { id:2, name:"한제현",  position:"시니어매니저",    blood:"A",  mbti:"ISTJ",   work:"개발 및 운영 (청구, 계산)", hobby:"유튜브 감상",       food:null,             interest:"건강",       special:null, image:"assets/members/member2.png" },
@@ -175,7 +247,7 @@
             }
         }
 
-        function showResult() {
+        async function showResult() {
             document.getElementById("quizPlay").style.display = "none";
             const result = document.getElementById("quizResult");
             result.style.display = "block";
@@ -188,11 +260,30 @@
             else if (pct >= 0.6)  label = "🙂 나쁘지 않아요! 조금 더 알아가봐요!";
             else if (pct >= 0.4)  label = "😅 아직 팀원과 친해질 필요가 있어요!";
             else                   label = "😢 팀원과 더 많이 대화해봐요!";
-
             document.getElementById("quizScoreLabel").innerText = label;
+
+            document.getElementById("rankBoard").innerHTML = "<p style='text-align:center;color:#888;'>순위 저장 중...</p>";
+            localStorage.setItem("quizPlayed", "true");
+            const scores = await saveScore(nickname, score, questions.length);
+            renderRank(scores, "rankBoard");
         }
 
+        let nickname = "";
+
         function startQuiz() {
+            const input = document.getElementById("nicknameInput").value.trim();
+            document.getElementById("nicknameError").style.display = "none";
+
+            if (localStorage.getItem("quizPlayed")) {
+                document.getElementById("alreadyPlayed").style.display = "block";
+                return;
+            }
+            if (!input) {
+                document.getElementById("nicknameError").style.display = "block";
+                return;
+            }
+
+            nickname = input;
             current = 0;
             score = 0;
             questions = buildQuestions();
@@ -202,9 +293,13 @@
             renderQuestion();
         }
 
+        // 이미 참여한 PC면 안내
+        if (localStorage.getItem("quizPlayed")) {
+            document.getElementById("alreadyPlayed").style.display = "block";
+        }
+
         document.getElementById("startQuizBtn").onclick = startQuiz;
         document.getElementById("nextBtn").onclick = nextQuestion;
-        document.getElementById("retryBtn").onclick = startQuiz;
     </script>
 </body>
 </html>
