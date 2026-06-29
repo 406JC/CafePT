@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAFE eGhis - 퀴즈 타임!</title>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+    <header>
+        <h1 style="cursor:pointer;" onclick="location.href='index.html'">☕ CAFE eGhis</h1>
+        <div style="color:white;font-size:20px;font-weight:700;">🎯 퀴즈 타임!</div>
+    </header>
+
+    <div id="quizScreen">
+        <div class="quiz-box">
+
+            <!-- 인트로 -->
+            <div class="quiz-intro" id="quizIntro">
+                <h2>🎯 팀원 퀴즈!</h2>
+                <p>
+                    팀원 정보를 얼마나 알고 있나요?<br>
+                    총 10문제가 랜덤으로 출제됩니다!
+                </p>
+                <button id="startQuizBtn">시작하기</button>
+            </div>
+
+            <!-- 퀴즈 진행 -->
+            <div id="quizPlay" style="display:none;">
+                <div class="quiz-header">
+                    <div class="quiz-progress" id="quizProgress">1 / 10</div>
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" id="quizFill" style="width:10%"></div>
+                    </div>
+                </div>
+
+                <div class="quiz-card">
+                    <img class="quiz-member-img" id="quizMemberImg" src="" alt="">
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-member-name" id="quizMemberName"></div>
+                </div>
+
+                <div class="quiz-options" id="quizOptions"></div>
+
+                <div class="quiz-feedback" id="quizFeedback"></div>
+
+                <button id="nextBtn">다음 문제 →</button>
+            </div>
+
+            <!-- 결과 -->
+            <div class="quiz-result" id="quizResult">
+                <h2>🎉 퀴즈 완료!</h2>
+                <div class="quiz-score" id="quizScore"></div>
+                <div class="quiz-score-label" id="quizScoreLabel"></div>
+                <div class="quiz-result-btns">
+                    <button id="retryBtn">🔄 다시 풀기</button>
+                    <button id="backBtn" onclick="location.href='index.html'">🏠 메인으로</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const members = [
+            { id:1, name:"이유리",  position:"팀장",           blood:"A",  mbti:"INFJ-T", work:"차트 수납, 청구, 고시",   hobby:"음악감상",           food:"만두",           interest:"맛집 탐방",  special:null, image:"assets/members/member1.png" },
+            { id:2, name:"한제현",  position:"시니어매니저",    blood:"A",  mbti:"ISTJ",   work:"개발 및 운영 (청구, 계산)", hobby:"유튜브 감상",       food:null,             interest:"건강",       special:null, image:"assets/members/member2.png" },
+            { id:3, name:"임병철",  position:"매니저",          blood:"O",  mbti:"ISTP",   work:"개발",                    hobby:"게임",               food:"회",             interest:"전자기기",   special:null, image:"assets/members/member3.png" },
+            { id:4, name:"남민우",  position:"매니저",          blood:"B",  mbti:"INTP",   work:"개발, 헬로100 연동 외",    hobby:"야구시청",           food:"햄버거, 샌드위치", interest:null,       special:null, image:"assets/members/member4.png" },
+            { id:5, name:"윤지석",  position:"매니저",          blood:"B",  mbti:"INTP",   work:"차트 개발 및 운영 TFT",    hobby:"게임, 웹소설",       food:null,             interest:null,        special:null, image:"assets/members/member5.png" },
+            { id:6, name:"정주찬",  position:"매니저",          blood:"AB", mbti:"ISTJ",   work:"개발 및 이관 해결",        hobby:"연극 뮤지컬 감상",   food:"회 종류",        interest:"주식 재테크", special:"NixPen 2.0, 5.0 eGhis 1.0, 2.0 개발 경험", image:"assets/members/member6.png" },
+            { id:7, name:"정제형",  position:"매니저",          blood:"B",  mbti:"INTJ",   work:"차트 개발 및 유지보수",    hobby:"운동, 주말에 하루종일 게임", food:null,       interest:null,        special:"고양이를 좋아하는데 털 알러지 있음", image:"assets/members/member7.png" },
+        ];
+
+        // 퀴즈 문제 유형
+        const questionTypes = [
+            { key:"blood",    label:"혈액형",   fmt: v => `${v}형` },
+            { key:"mbti",     label:"MBTI",     fmt: v => v },
+            { key:"hobby",    label:"취미",     fmt: v => v },
+            { key:"food",     label:"최애음식", fmt: v => v },
+            { key:"interest", label:"관심사",   fmt: v => v },
+            { key:"special",  label:"특이사항", fmt: v => v },
+        ];
+
+        let questions = [];
+        let current = 0;
+        let score = 0;
+        let answered = false;
+
+        function shuffle(arr) {
+            return arr.sort(() => Math.random() - 0.5);
+        }
+
+        function buildQuestions() {
+            const pool = [];
+            members.forEach(m => {
+                questionTypes.forEach(qt => {
+                    if (m[qt.key] && m[qt.key] !== "-") {
+                        pool.push({ member: m, type: qt });
+                    }
+                });
+            });
+            return shuffle(pool).slice(0, 10);
+        }
+
+        function getWrongOptions(correct, qt) {
+            const all = members
+                .map(m => m[qt.key])
+                .filter(v => v && v !== "-" && v !== correct);
+            return shuffle([...new Set(all)]).slice(0, 3);
+        }
+
+        function renderQuestion() {
+            const q = questions[current];
+            const m = q.member;
+            const qt = q.type;
+            const correct = qt.fmt(m[qt.key]);
+
+            document.getElementById("quizProgress").innerText = `${current + 1} / ${questions.length}`;
+            document.getElementById("quizFill").style.width = `${((current + 1) / questions.length) * 100}%`;
+            document.getElementById("quizMemberImg").src = m.image;
+            document.getElementById("quizQuestion").innerText = `이 팀원의 ${qt.label}은?`;
+            document.getElementById("quizMemberName").innerText = m.name;
+            document.getElementById("quizFeedback").innerText = "";
+            document.getElementById("quizFeedback").className = "quiz-feedback";
+            document.getElementById("nextBtn").style.display = "none";
+
+            const wrongs = getWrongOptions(m[qt.key], qt).map(v => qt.fmt(v));
+            const opts = shuffle([correct, ...wrongs]);
+
+            const container = document.getElementById("quizOptions");
+            container.innerHTML = "";
+            opts.forEach(opt => {
+                const btn = document.createElement("button");
+                btn.className = "quiz-opt";
+                btn.innerText = opt;
+                btn.onclick = () => answer(btn, opt, correct);
+                container.appendChild(btn);
+            });
+
+            answered = false;
+        }
+
+        function answer(btn, selected, correct) {
+            if (answered) return;
+            answered = true;
+
+            const allBtns = document.querySelectorAll(".quiz-opt");
+            allBtns.forEach(b => {
+                b.disabled = true;
+                if (b.innerText === correct) b.classList.add("correct");
+            });
+
+            const feedback = document.getElementById("quizFeedback");
+            if (selected === correct) {
+                score++;
+                btn.classList.add("correct");
+                feedback.innerText = "✅ 정답!";
+                feedback.className = "quiz-feedback correct";
+            } else {
+                btn.classList.add("wrong");
+                feedback.innerText = `❌ 오답! 정답은 "${correct}"`;
+                feedback.className = "quiz-feedback wrong";
+            }
+
+            document.getElementById("nextBtn").style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            current++;
+            if (current >= questions.length) {
+                showResult();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quizPlay").style.display = "none";
+            const result = document.getElementById("quizResult");
+            result.style.display = "block";
+            document.getElementById("quizScore").innerText = `${score} / ${questions.length}`;
+
+            const pct = score / questions.length;
+            let label = "";
+            if (pct === 1)        label = "🏆 완벽해요! 팀원 박사!";
+            else if (pct >= 0.8)  label = "😊 훌륭해요! 팀원을 잘 알고 있어요!";
+            else if (pct >= 0.6)  label = "🙂 나쁘지 않아요! 조금 더 알아가봐요!";
+            else if (pct >= 0.4)  label = "😅 아직 팀원과 친해질 필요가 있어요!";
+            else                   label = "😢 팀원과 더 많이 대화해봐요!";
+
+            document.getElementById("quizScoreLabel").innerText = label;
+        }
+
+        function startQuiz() {
+            current = 0;
+            score = 0;
+            questions = buildQuestions();
+            document.getElementById("quizIntro").style.display = "none";
+            document.getElementById("quizResult").style.display = "none";
+            document.getElementById("quizPlay").style.display = "block";
+            renderQuestion();
+        }
+
+        document.getElementById("startQuizBtn").onclick = startQuiz;
+        document.getElementById("nextBtn").onclick = nextQuestion;
+        document.getElementById("retryBtn").onclick = startQuiz;
+    </script>
+</body>
+</html>
