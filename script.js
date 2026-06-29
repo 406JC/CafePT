@@ -27,7 +27,6 @@ const members = [
             shot: null,
             milk: null,
             syrup: ["없음", "헤이즐넛"],
-            topping: "없음"
         }
     },
     {
@@ -61,14 +60,13 @@ const members = [
         food: "회",
         interest: "전자기기",
         special: "-",
-        image: "assets/members/member2.png",
+        image: "assets/members/member3.png",
         recipe: {
             type: "coffee",
             size: ["M", "L"],
             shot: null,
             milk: "없음",
             syrup: "없음",
-            topping: "없음"
         }
     },
     {
@@ -82,7 +80,7 @@ const members = [
         food: "-",
         interest: "-",
         special: "-",
-        image: "assets/members/member2.png",
+        image: "assets/members/member3.png",
         recipe: {
             type: "juice",
             size: null,
@@ -102,15 +100,18 @@ const members = [
         food: "햄버거, 샌드위치",
         interest: "-",
         special: "-",
-        image: "assets/members/member2.png",
+        image: "assets/members/member4.png",
         recipe: {
             type: "coffee",
             size: ["M", "L"],
             shot: null,
             milk: "없음",
             syrup: "없음",
-            topping: "없음"
         }
+    },
+    {
+        id: 4,
+        name: "남민우",
         position: "NixPen 2.0 매니저",
         blood: "-",
         mbti: "INTJ",
@@ -119,14 +120,53 @@ const members = [
         food: "-",
         interest: "-",
         special: "-",
-        image: "assets/members/member2.png",
+        image: "assets/members/member4.png",
         recipe: {
             type: "coffee",
             size: ["M", "L", "XL"],
             shot: null,
             milk: "없음",
             syrup: "없음",
-            topping: "없음"
+        }
+    },
+    {
+        id: 5,
+        name: "윤지석",
+        position: "NixPen 2.0 매니저",
+        blood: "B",
+        mbti: "INTP",
+        work: "개발 및 운영 TFT 안과 장비 연동 기능",
+        hobby: "게임, 웹소설",
+        food: "-",
+        interest: "-",
+        special: "-",
+        image: "assets/members/member5.png",
+        recipe: {
+            type: "coffee",
+            size: ["M", "L","XL"],
+            shot: null,
+            milk: "없음",
+            syrup: "없음",
+        }
+    },
+    {
+        id: 5,
+        name: "윤지석",
+        position: "NixPen 2.0 매니저",
+        blood: "-",
+        mbti: "INTJ",
+        work: "-",
+        hobby: "-",
+        food: "-",
+        interest: "-",
+        special: "-",
+        image: "assets/members/member4.png",
+        recipe: {
+            type: "coffee",
+            size: ["M", "L", "XL"],
+            shot: null,
+            milk: "없음",
+            syrup: "없음",
         }
     },
     {
@@ -147,7 +187,6 @@ const members = [
             shot: null,
             milk: "없음",
             syrup: "헤이즐넛",
-            topping: "없음"
         }
     },
     {
@@ -168,7 +207,6 @@ const members = [
             shot: null,
             milk: "일반",
             syrup: "카라멜",
-            topping: "없음"
         }
     },
     {
@@ -222,14 +260,13 @@ const members = [
         food: "-",
         interest: "-",
         special: "고양이를 좋아하는데 털 알러지 있음",
-        image: "assets/members/member2.png",
+        image: "assets/members/member7.png",
         recipe: {
             type: "coffee",
             size: ["M", "L", "XL"],
             shot: null,
             milk: "없음",
             syrup: "헤이즐넛",
-            topping: null
         }
     },
     {
@@ -243,7 +280,7 @@ const members = [
         food: "-",
         interest: "-",
         special: "-",
-        image: "assets/members/member2.png",
+        image: "assets/members/member7.png",
         recipe: {
             type: "juice",
             size: null,
@@ -305,15 +342,6 @@ const STEPS = {
                 { v: "없음",     e: "🚫" }
             ]
         },
-        {
-            key: "topping", label: "마지막 토핑을 올리세요", icon: "✨", color: "#EFE0C0",
-            options: [
-                { v: "휘핑",   e: "☁️" },
-                { v: "초코",   e: "🍫" },
-                { v: "시나몬", e: "🍂" },
-                { v: "없음",   e: "🚫" }
-            ]
-        }
     ],
     juice: [
         {
@@ -394,6 +422,11 @@ window.onload = function () {
 // =============================
 
 function bindEvents() {
+
+    // 로고 클릭 → 메인
+    document.getElementById("logoBtn").onclick = () => {
+        showScreen("homeScreen");
+    };
 
     // 시작
     document.getElementById("startBtn").onclick = () => {
@@ -703,6 +736,7 @@ function showMakeButton() {
 
     const btn = document.getElementById("makeBtn");
     btn.style.display = "block";
+    setTimeout(() => btn.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
 }
 
 
@@ -792,6 +826,33 @@ function showResult() {
 // 12. 결과 출력
 // =============================
 
+function getDrinkImage() {
+    const { syrup, milk, main, water } = selected;
+
+    if (currentType === "coffee") {
+        if (syrup === "바닐라" && (milk === "일반" || milk === "오트밀크")) return "assets/drinks/vanillaLatte.png";
+        if (syrup === "카라멜" && (milk === "일반" || milk === "오트밀크")) return "assets/drinks/CaramelMacchiato.png";
+        if (syrup === "헤이즐넛" && (milk === "일반" || milk === "오트밀크")) return "assets/drinks/HazelnutLatte.png";
+        if (syrup === "바닐라" && milk === "없음") return "assets/drinks/vanillaCoffee.png";
+        if (syrup === "카라멜" && milk === "없음") return "assets/drinks/CaramelCoffee.png";
+        if (syrup === "헤이즐넛" && milk === "없음") return "assets/drinks/HazelnutCoffee.png";
+        if (syrup === "없음" && milk === "없음") return "assets/drinks/Americano.png";
+        if (syrup === "없음" && (milk === "일반" || milk === "오트밀크")) return "assets/drinks/cafeLatte.png";
+        return "assets/drinks/Americano.png";
+    } else {
+        if (main === "루이보스 티백") return "assets/drinks/RooibosTea.png";
+        if (main === "레몬" && water === "일반 물") return "assets/drinks/lemonTea.png";
+        if (main === "레몬" && (water === "제로 탄산" || water === "일반 탄산")) return "assets/drinks/lemonAde.png";
+        if (main === "아이스티 가루") return "assets/drinks/IceTea.png";
+        return "assets/drinks/fail.png";
+    }
+}
+
+function infoRow(label, value) {
+    if (!value || value === "-") return "";
+    return `<li>${label} : <span>${value}</span></li>`;
+}
+
 function renderResult(members_list) {
 
     const drinkName = document.getElementById("drinkName");
@@ -803,20 +864,22 @@ function renderResult(members_list) {
     if (members_list.length === 0) {
 
         drinkName.innerText = "❌ 실패한 음료";
-        img.src = "assets/drinks/fail.png";
+        img.src = getDrinkImage();
 
-        document.getElementById("memberName").innerText = "실패";
+        document.getElementById("memberName").innerText = "";
         document.getElementById("memberPosition").innerText = "";
-        document.getElementById("memberImage").src = "";
+        document.getElementById("memberImage").src = "assets/drinks/fail.png";
+
+        memberCard.querySelectorAll("li").forEach(li => li.style.display = "none");
 
         badge.style.display = "none";
-        already.innerText = "잘못된 조합입니다.";
+        already.innerText = "만든 음료를 좋아하는 팀원이 없어요. ㅠㅡㅠ";
 
         return;
     }
 
     drinkName.innerText = "☕ 완성!";
-    img.src = "assets/drinks/latte.png";
+    img.src = getDrinkImage();
 
     if (members_list.length === 1) {
 
@@ -829,13 +892,13 @@ function renderResult(members_list) {
             <h2 id="memberName">${member.name}</h2>
             <h4 id="memberPosition">${member.position}</h4>
             <ul>
-                <li>혈액형 : <span>${member.blood || "-"}</span></li>
-                <li>MBTI : <span>${member.mbti || "-"}</span></li>
-                <li>주요업무 : <span>${member.work || "-"}</span></li>
-                <li>취미 : <span>${member.hobby || "-"}</span></li>
-                <li>최애음식 : <span>${member.food || "-"}</span></li>
-                <li>관심사 : <span>${member.interest || "-"}</span></li>
-                <li>특이사항 : <span>${member.special || "-"}</span></li>
+                ${infoRow("혈액형", member.blood)}
+                ${infoRow("MBTI", member.mbti)}
+                ${infoRow("주요업무", member.work)}
+                ${infoRow("취미", member.hobby)}
+                ${infoRow("최애음식", member.food)}
+                ${infoRow("관심사", member.interest)}
+                ${infoRow("특이사항", member.special)}
             </ul>
             <p id="alreadyCollected"></p>
         `;
@@ -984,7 +1047,6 @@ function buildHint(recipe) {
         if (recipe.shot    !== undefined) parts.push(`샷: ${fmt(recipe.shot)}`);
         if (recipe.milk    !== undefined) parts.push(`우유: ${fmt(recipe.milk)}`);
         if (recipe.syrup   !== undefined) parts.push(`시럽: ${fmt(recipe.syrup)}`);
-        if (recipe.topping !== undefined) parts.push(`토핑: ${fmt(recipe.topping)}`);
     } else {
         if (recipe.size  !== undefined) parts.push(`사이즈: ${fmt(recipe.size)}`);
         if (recipe.main  !== undefined) parts.push(`주재료: ${fmt(recipe.main)}`);
@@ -1006,11 +1068,22 @@ function showPopup(m) {
     document.getElementById("popupImage").src = m.image;
     document.getElementById("popupName").innerText = m.name;
     document.getElementById("popupPosition").innerText = m.position;
-    document.getElementById("popupBlood").innerText = m.blood || "-";
-    document.getElementById("popupMBTI").innerText = m.mbti || "-";
-    document.getElementById("popupWork").innerText = m.work || "-";
-    document.getElementById("popupHobby").innerText = m.hobby || "-";
-    document.getElementById("popupFood").innerText = m.food || "-";
-    document.getElementById("popupInterest").innerText = m.interest || "-";
-    document.getElementById("popupSpecial").innerText = m.special || "-";
+
+    const fields = [
+        { id: "popupBlood",    value: m.blood },
+        { id: "popupMBTI",     value: m.mbti },
+        { id: "popupWork",     value: m.work },
+        { id: "popupHobby",    value: m.hobby },
+        { id: "popupFood",     value: m.food },
+        { id: "popupInterest", value: m.interest },
+        { id: "popupSpecial",  value: m.special },
+    ];
+
+    fields.forEach(({ id, value }) => {
+        const span = document.getElementById(id);
+        const li = span.closest("li");
+        const empty = !value || value === "-";
+        li.style.display = empty ? "none" : "";
+        span.innerText = empty ? "" : value;
+    });
 }
