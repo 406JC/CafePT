@@ -12,7 +12,7 @@ const members = [
     {
         id: 1,
         name: "이유리",
-        position: "의원개발3팀 팀장",
+        position: "팀장",
         blood: "A",
         mbti: "INFJ-T",
         work: "차트 수납, 청구, 고시",
@@ -32,7 +32,7 @@ const members = [
     {
         id: 2,
         name: "한제현",
-        position: "NixPen 2.0 시니어매니저",
+        position: "시니어매니저",
         blood: "A",
         mbti: "ISTJ",
         work: "개발 및 운영 (청구, 계산)",
@@ -52,7 +52,7 @@ const members = [
     {
         id: 3,
         name: "임병철",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "O",
         mbti: "ISTP",
         work: "개발",
@@ -72,7 +72,7 @@ const members = [
     {
         id: 3,
         name: "임병철",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "-",
         mbti: "INTJ",
         work: "-",
@@ -92,7 +92,7 @@ const members = [
     {
         id: 4,
         name: "남민우",
-        position: "NixPen 5.0 매니저",
+        position: "매니저",
         blood: "B",
         mbti: "INTP",
         work: "개발, 헬로100 연동, 키오스크, 수탁연동, Posivision, 카드단말기 연동, 그외 전반적인 기능",
@@ -112,7 +112,7 @@ const members = [
     {
         id: 4,
         name: "남민우",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "-",
         mbti: "INTJ",
         work: "-",
@@ -132,7 +132,7 @@ const members = [
     {
         id: 5,
         name: "윤지석",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "B",
         mbti: "INTP",
         work: "개발 및 운영 TFT 안과 장비 연동 기능",
@@ -152,7 +152,7 @@ const members = [
     {
         id: 5,
         name: "윤지석",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "-",
         mbti: "INTJ",
         work: "-",
@@ -172,7 +172,7 @@ const members = [
     {
         id: 6,
         name: "정주찬",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "AB",
         mbti: "ISTJ",
         work: "개발 및 이관 해결",
@@ -192,7 +192,7 @@ const members = [
     {
         id: 6,
         name: "정주찬",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "AB",
         mbti: "ISTJ",
         work: "개발 및 이관 해결",
@@ -212,7 +212,7 @@ const members = [
     {
         id: 6,
         name: "정주찬",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "AB",
         mbti: "ISTJ",
         work: "개발 및 이관 해결",
@@ -232,7 +232,7 @@ const members = [
     {
         id: 6,
         name: "정주찬",
-        position: "NixPen 2.0 매니저",
+        position: "매니저",
         blood: "AB",
         mbti: "ISTJ",
         work: "개발 및 이관 해결",
@@ -252,7 +252,7 @@ const members = [
     {
         id: 7,
         name: "정제형",
-        position: "NixPen 5.0 매니저",
+        position: "매니저",
         blood: "B",
         mbti: "INTJ",
         work: "차트 개발 및 유지보수",
@@ -272,7 +272,7 @@ const members = [
     {
         id: 7,
         name: "정제형",
-        position: "NixPen 5.0 매니저",
+        position: "매니저",
         blood: "-",
         mbti: "INTJ",
         work: "-",
@@ -617,7 +617,17 @@ function renderStep(idx) {
             btn.style.animationDelay = `${i * 0.07}s`;
             btn.innerHTML = `<span class="opt-emoji">${opt.e}</span><span class="opt-text">${opt.v}</span>`;
             if (selected[step.key] === opt.v) btn.classList.add("selected");
-            btn.onclick = () => pickOption(step, opt, idx);
+
+            const isSodaOpt = (opt.v === "제로 탄산" || opt.v === "일반 탄산");
+            const mainNoSoda = (selected["main"] === "루이보스 티백" || selected["main"] === "아이스티 가루");
+            if (step.key === "water" && isSodaOpt && mainNoSoda) {
+                btn.disabled = true;
+                btn.style.opacity = "0.35";
+                btn.style.cursor = "not-allowed";
+            } else {
+                btn.onclick = () => pickOption(step, opt, idx);
+            }
+
             optsEl.appendChild(btn);
         });
 
@@ -633,6 +643,13 @@ function pickOption(step, opt, stepIdx) {
 
     const steps = STEPS[currentType];
     selected[step.key] = opt.v;
+
+    // 주재료가 루이보스/아이스티로 바뀌었는데 탄산이 선택된 경우 초기화
+    if (step.key === "main" && (opt.v === "루이보스 티백" || opt.v === "아이스티 가루")) {
+        if (selected["water"] === "제로 탄산" || selected["water"] === "일반 탄산") {
+            delete selected["water"];
+        }
+    }
 
     // 옵션 선택 표시
     document.querySelectorAll(".step-opt").forEach(b => {
@@ -863,7 +880,8 @@ function renderResult(members_list) {
 
     if (members_list.length === 0) {
 
-        drinkName.innerText = "❌ 실패한 음료";
+        const combo = STEPS[currentType].map(s => selected[s.key]).filter(Boolean).join(" / ");
+        drinkName.innerText = `❌ 매칭 실패한 음료\n${combo}`;
         img.src = getDrinkImage();
 
         document.getElementById("memberName").innerText = "";
@@ -974,9 +992,10 @@ function renderCollection() {
     );
 
     // 그룹 분류
+    const nixpen20ids = [2, 3, 5, 6];
     const groups = {
-        left:  uniqueMembers.filter(m => m.position.includes("2.0")),
-        right: uniqueMembers.filter(m => !m.position.includes("2.0")),
+        left:  uniqueMembers.filter(m => nixpen20ids.includes(m.id)),
+        right: uniqueMembers.filter(m => !nixpen20ids.includes(m.id)),
     };
 
     // 2열 컬럼 래퍼
@@ -1017,7 +1036,12 @@ function makeGotCard(m) {
 }
 
 function makeLockedCard(m) {
-    const hint = buildHint(m.recipe);
+    const allRecipes = members.filter(x => x.id === m.id);
+    const coffeeRecipe = allRecipes.find(x => x.recipe.type === "coffee");
+    const juiceRecipe  = allRecipes.find(x => x.recipe.type === "juice");
+    const coffeeHint = coffeeRecipe ? buildHint(coffeeRecipe.recipe) : "커피 X";
+    const juiceHint  = juiceRecipe  ? buildHint(juiceRecipe.recipe)  : "논커피 X";
+
     const wrapper = document.createElement("div");
     wrapper.className = "flip-card";
     wrapper.innerHTML = `
@@ -1026,12 +1050,39 @@ function makeLockedCard(m) {
                 <span class="flip-q">???</span>
             </div>
             <div class="flip-back">
-                <span class="flip-hint-title">🔍 힌트</span>
-                <span class="flip-hint-text">${hint}</span>
+                <span class="flip-hint-title">☕ 커피 힌트</span>
+                <span class="flip-hint-text"></span>
             </div>
         </div>
     `;
-    wrapper.onclick = () => wrapper.classList.toggle("flipped");
+
+    const flipBack  = wrapper.querySelector(".flip-back");
+    const hintTitle = wrapper.querySelector(".flip-hint-title");
+    const hintText  = wrapper.querySelector(".flip-hint-text");
+    let state = 0;
+
+    wrapper.onclick = () => {
+        if (state === 0) {
+            state = 1;
+            wrapper.classList.add("flipped");
+            flipBack.classList.remove("juice");
+            hintTitle.textContent = "☕ 커피 힌트";
+            hintText.classList.remove("no-juice");
+            hintText.innerHTML = coffeeHint;
+        } else if (state === 1) {
+            state = 2;
+            flipBack.classList.add("juice");
+            hintTitle.textContent = "🧋 논커피 힌트";
+            const isNoJuice = juiceHint === "논커피 X";
+            hintText.classList.toggle("no-juice", isNoJuice);
+            hintText.innerHTML = isNoJuice ? "❌" : juiceHint;
+        } else {
+            state = 0;
+            wrapper.classList.remove("flipped");
+            flipBack.classList.remove("juice");
+        }
+    };
+
     return wrapper;
 }
 

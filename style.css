@@ -1417,6 +1417,18 @@ button:active{
     transform: rotateY(180deg);
     padding: 12px;
     gap: 6px;
+    transition: background 0.3s ease;
+}
+
+.flip-back.juice {
+    background: linear-gradient(135deg, #2E7D52, #4CAF82);
+}
+
+.flip-back.juice .flip-hint-text.no-juice {
+    font-size: 15px;
+    font-weight: 700;
+    opacity: 0.6;
+    letter-spacing: 2px;
 }
 
 .flip-hint-title {
