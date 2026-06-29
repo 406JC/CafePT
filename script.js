@@ -859,7 +859,7 @@ function getDrinkImage() {
         if (syrup === "카라멜" && milk === "없음") return "assets/drinks/CaramelCoffee.png";
         if (syrup === "헤이즐넛" && milk === "없음") return "assets/drinks/HazelnutCoffee.png";
         if (syrup === "없음" && milk === "없음") return "assets/drinks/Americano.png";
-        if (syrup === "없음" && (milk === "일반" || milk === "오트밀크")) return "assets/drinks/cafeLatte.png";
+        if (syrup === "없음" && (milk === "일반" || milk === "오트밀크")) return "assets/drinks/CafeLatte.png";
         return "assets/drinks/Americano.png";
     } else {
         if (main === "루이보스 티백") return "assets/drinks/RooibosTea.png";
@@ -980,6 +980,9 @@ function updateCollectionUI() {
 
     document.getElementById("collectionRate").innerText =
         `${collection.length} / ${uniqueCount}명`;
+
+    const quizBtn = document.getElementById("quizBtn");
+    if (quizBtn) quizBtn.style.display = collection.length >= uniqueCount ? "" : "none";
 }
 
 
