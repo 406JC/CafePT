@@ -836,6 +836,11 @@ function showResult() {
     }
 
     showScreen("resultScreen");
+
+    const card = document.querySelector(".member-card");
+    card.style.animation = "none";
+    card.offsetHeight;
+    card.style.animation = "";
 }
 
 
@@ -896,7 +901,8 @@ function renderResult(members_list) {
         return;
     }
 
-    drinkName.innerText = "☕ 완성!";
+    const combo = STEPS[currentType].map(s => selected[s.key]).filter(Boolean).join(" / ");
+    drinkName.innerText = `☕ 완성!\n${combo}`;
     img.src = getDrinkImage();
 
     if (members_list.length === 1) {
