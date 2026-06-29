@@ -254,6 +254,40 @@ header h1{
 
 }
 
+#quizBtn{
+
+    width:220px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:#6F4E37;
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    margin-top:16px;
+
+}
+
+#quizBtn:hover{
+
+    transform:translateY(-3px);
+
+    background:#8B5E3C;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+}
+
 /* ================= BUTTON COMMON ================= */
 
 button{
