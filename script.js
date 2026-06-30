@@ -553,8 +553,11 @@ function bindEvents() {
         if (confirm("컬렉션을 초기화할까요?")) {
             collection = [];
             saveCollection();
+            salesLog = [];
+            saveSalesLog();
             updateCollectionUI();
             renderCollection();
+            renderSalesPanel();
         }
     };
 
