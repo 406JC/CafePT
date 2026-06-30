@@ -24,19 +24,34 @@
 
     </header>
 
+    <!-- ================= LOADING ================= -->
+    <div id="loadingScreen" style="position:fixed;inset:0;z-index:99999;background:#f6f2ea;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;">
+        <div style="font-size:56px;animation:loadingBounce 1s infinite alternate;">☕</div>
+        <div style="font-size:22px;font-weight:700;color:#4B382A;letter-spacing:1px;">CAFE eGhis</div>
+        <div id="loadingMsg" style="font-size:15px;color:#7a5c3e;min-height:24px;transition:opacity 0.3s;">화면 열 때 청소 중...</div>
+        <div style="width:280px;height:12px;background:#e8ddd4;border-radius:999px;overflow:hidden;border:1.5px solid #c49a6c;">
+            <div id="loadingBar" style="height:100%;width:0%;background:linear-gradient(90deg,#c49a6c,#8B5E3C);border-radius:999px;transition:width 0.4s ease;"></div>
+        </div>
+        <div id="loadingPct" style="font-size:13px;color:#a07850;font-weight:600;">0%</div>
+    </div>
+
     <!-- ================= HOME ================= -->
 
     <section id="homeScreen" class="screen active">
 
         <div class="home-box">
 
-            <h2>자신이 좋아하는 음료를 만들어보세요!</h2>
+            <h2>좋아하는 음료를 만들어보세요!</h2>
 
             <p>
                 음료를 완성하면
                 랜덤으로 의원개발3팀 1명을 만날 수 있습니다.
             </p>
 
+            <p style="font-size:20px;color:#9a7755;margin-top:-8px;">
+                🎁 7명을 전부 만나면 보이는 특전이 있습니다.
+            </p>
+			
             <button id="startBtn">
                 시작하기
             </button>

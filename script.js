@@ -73,12 +73,12 @@ const members = [
         id: 3,
         name: "임병철",
         position: "매니저",
-        blood: "-",
-        mbti: "INTJ",
-        work: "-",
-        hobby: "-",
-        food: "-",
-        interest: "-",
+        blood: "O",
+        mbti: "ISTP",
+        work: "개발",
+        hobby: "게임",
+        food: "회",
+        interest: "전자기기",
         special: "-",
         image: "assets/members/member3.png",
         recipe: {
@@ -211,7 +211,7 @@ const members = [
     },
     {
         id: 7,
-        name: "정제형",
+        name: "정재형",
         position: "매니저",
         blood: "B",
         mbti: "INTJ",
@@ -231,15 +231,15 @@ const members = [
     },
     {
         id: 7,
-        name: "정제형",
+        name: "정재형",
         position: "매니저",
-        blood: "-",
+        blood: "B",
         mbti: "INTJ",
-        work: "-",
-        hobby: "-",
+        work: "차트 개발 및 유지보수",
+        hobby: "운동, 주말에 하루종일 게임",
         food: "-",
         interest: "-",
-        special: "-",
+        special: "고양이를 좋아하는데 털 알러지 있음",
         image: "assets/members/member7.png",
         recipe: {
             type: "juice",
@@ -453,12 +453,48 @@ function showScreen(id) {
 
 window.onload = function () {
 
-    updateCollectionUI();
-    renderSalesPanel();
+    // ── 로딩 시퀀스 ──
+    const steps = [
+        { msg: "바닥 청소 중...",   pct: 15 },
+        { msg: "머신 청소 중...",           pct: 35 },
+        { msg: "재료 준비 중...",           pct: 55 },
+        { msg: "원두 채우고 있어요...",       pct: 72 },
+        { msg: "재료 준비 끝...", pct: 88 },
+        { msg: "거의 다 됐어요! ☕",        pct: 100 },
+    ];
 
-    showIngredientUI();
+    const msgEl = document.getElementById("loadingMsg");
+    const barEl = document.getElementById("loadingBar");
+    const pctEl = document.getElementById("loadingPct");
+    const loadEl = document.getElementById("loadingScreen");
 
-    bindEvents();
+    let idx = 0;
+
+    function nextStep() {
+        if (idx >= steps.length) {
+            // 로딩 완료 → 실제 초기화 후 화면 제거
+            updateCollectionUI();
+            renderSalesPanel();
+            showIngredientUI();
+            bindEvents();
+
+            loadEl.style.transition = "opacity 0.5s";
+            loadEl.style.opacity = "0";
+            setTimeout(() => loadEl.remove(), 520);
+            return;
+        }
+        const s = steps[idx++];
+        msgEl.style.opacity = "0";
+        setTimeout(() => {
+            msgEl.textContent = s.msg;
+            msgEl.style.opacity = "1";
+        }, 150);
+        barEl.style.width = s.pct + "%";
+        pctEl.textContent = s.pct + "%";
+        setTimeout(nextStep, idx === steps.length ? 600 : 480);
+    }
+
+    setTimeout(nextStep, 300);
 
 };
 
@@ -669,7 +705,6 @@ function renderStep(idx) {
             if (step.key === "water" && isSodaOpt && mainNoSoda) {
                 btn.disabled = true;
                 btn.style.opacity = "0.35";
-                btn.style.cursor = "not-allowed";
             } else {
                 btn.onclick = () => pickOption(step, opt, idx);
             }
@@ -1152,8 +1187,9 @@ function makeLockedCard(m) {
             wrapper.classList.add("flipped");
             flipBack.classList.remove("juice");
             hintTitle.textContent = "☕ 커피 힌트";
-            hintText.classList.remove("no-juice");
-            hintText.innerHTML = coffeeHint;
+            const isNoCoffee = coffeeHint === "커피 X";
+            hintText.classList.toggle("no-juice", isNoCoffee);
+            hintText.innerHTML = isNoCoffee ? "❌" : coffeeHint;
         } else if (state === 1) {
             state = 2;
             flipBack.classList.add("juice");
