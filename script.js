@@ -1093,7 +1093,7 @@ function renderCollection() {
     centerCol.innerHTML = `
         <div class="col-label" style="width:100%;box-sizing:border-box;">🎉 팀원 전원 달성!</div>
         <div style="position:relative;flex:1;min-height:0;width:100%;">
-            <img src="assets/Background/Background PT.png" alt="팀소개" id="completeImg" style="width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 8px 32px rgba(111,78,55,0.25);cursor:zoom-in;" onclick="const o=document.getElementById('imgOverlay');o.style.display='flex';">
+            <img src="assets/Background/BackGround PT.png" alt="팀소개" id="completeImg" style="width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 8px 32px rgba(111,78,55,0.25);cursor:zoom-in;" onclick="const o=document.getElementById('imgOverlay');o.style.display='flex';">
         </div>
     `;
     if (isComplete) grid.appendChild(centerCol);
