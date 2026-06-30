@@ -238,6 +238,11 @@
 
     </section>
 
+    <!-- ================= 이미지 전체화면 오버레이 ================= -->
+    <div id="imgOverlay" onclick="this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center;">
+        <img src="assets/Background/Background PT.png" style="max-width:90vw;max-height:90vh;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+    </div>
+
     <!-- ================= MEMBER POPUP ================= -->
 
     <div id="popup" class="popup hidden">
@@ -271,6 +276,9 @@
         </div>
 
     </div>
+
+    <!-- ================= 매출 패널 ================= -->
+    <div id="salesPanel" class="sales-panel"></div>
 
     <script src="script.js"></script>
 

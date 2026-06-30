@@ -110,26 +110,6 @@ const members = [
         }
     },
     {
-        id: 4,
-        name: "남민우",
-        position: "매니저",
-        blood: "-",
-        mbti: "INTJ",
-        work: "-",
-        hobby: "-",
-        food: "-",
-        interest: "-",
-        special: "-",
-        image: "assets/members/member4.png",
-        recipe: {
-            type: "coffee",
-            size: ["M", "L", "XL"],
-            shot: null,
-            milk: "없음",
-            syrup: "없음",
-        }
-    },
-    {
         id: 5,
         name: "윤지석",
         position: "매니저",
@@ -144,26 +124,6 @@ const members = [
         recipe: {
             type: "coffee",
             size: ["M", "L","XL"],
-            shot: null,
-            milk: "없음",
-            syrup: "없음",
-        }
-    },
-    {
-        id: 5,
-        name: "윤지석",
-        position: "매니저",
-        blood: "-",
-        mbti: "INTJ",
-        work: "-",
-        hobby: "-",
-        food: "-",
-        interest: "-",
-        special: "-",
-        image: "assets/members/member4.png",
-        recipe: {
-            type: "coffee",
-            size: ["M", "L", "XL"],
             shot: null,
             milk: "없음",
             syrup: "없음",
@@ -298,6 +258,91 @@ const members = [
 
 let collection = JSON.parse(localStorage.getItem("collection")) || [];
 
+// =============================
+// 2-1. 매출 데이터
+// =============================
+
+const DRINK_PRICES = {
+    "아메리카노":       1500,
+    "카페라떼":         2000,
+    "카라멜커피":       2500,
+    "카라멜마끼아또":   3500,
+    "헤이즐넛커피":     3000,
+    "헤이즐넛라떼":     3500,
+    "아이스티":         2000,
+    "레몬에이드":       4500,
+    "레몬티":           4000,
+    "루이보스티":       3000,
+    "바닐라커피":       3500,
+    "바닐라라떼":       4000,
+};
+
+let salesLog = JSON.parse(localStorage.getItem("salesLog")) || [];
+
+function saveSalesLog() {
+    localStorage.setItem("salesLog", JSON.stringify(salesLog));
+}
+
+function getDrinkLabel() {
+    const { syrup, milk, main, water } = selected;
+    if (currentType === "coffee") {
+        if (syrup === "바닐라"  && milk === "없음") return "바닐라커피";
+        if (syrup === "바닐라"  && (milk === "일반" || milk === "오트밀크")) return "바닐라라떼";
+        if (syrup === "카라멜"  && milk === "없음") return "카라멜커피";
+        if (syrup === "카라멜"  && (milk === "일반" || milk === "오트밀크")) return "카라멜마끼아또";
+        if (syrup === "헤이즐넛" && milk === "없음") return "헤이즐넛커피";
+        if (syrup === "헤이즐넛" && (milk === "일반" || milk === "오트밀크")) return "헤이즐넛라떼";
+        if (syrup === "없음"    && milk === "없음") return "아메리카노";
+        if (syrup === "없음"    && (milk === "일반" || milk === "오트밀크")) return "카페라떼";
+    } else {
+        if (main === "루이보스 티백") return "루이보스티";
+        if (main === "아이스티 가루") return "아이스티";
+        if (main === "레몬" && water === "일반 물") return "레몬티";
+        if (main === "레몬" && (water === "제로 탄산" || water === "일반 탄산")) return "레몬에이드";
+    }
+    return null;
+}
+
+function recordSale() {
+    const label = getDrinkLabel();
+    if (!label) return;
+    const price = DRINK_PRICES[label] || 0;
+    salesLog.push({ name: label, price, time: new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" }) });
+    saveSalesLog();
+    renderSalesPanel();
+}
+
+function renderSalesPanel() {
+    const panel = document.getElementById("salesPanel");
+    if (!panel) return;
+
+    const total = salesLog.reduce((sum, s) => sum + s.price, 0);
+
+    const counts = {};
+    salesLog.forEach(s => { counts[s.name] = (counts[s.name] || 0) + 1; });
+
+    const rows = Object.entries(counts)
+        .map(([name, cnt]) => `<tr><td>${name}</td><td>${cnt}잔</td><td>${(DRINK_PRICES[name] * cnt).toLocaleString()}원</td></tr>`)
+        .join("");
+
+    panel.innerHTML = `
+        <div class="sales-title">☕ 오늘의 매출</div>
+        <table class="sales-table">
+            <thead><tr><th>음료</th><th>수량</th><th>금액</th></tr></thead>
+            <tbody>${rows || "<tr><td colspan='3' style='color:#aaa;text-align:center;'>아직 없음</td></tr>"}</tbody>
+        </table>
+        <div class="sales-total">합계: ${total.toLocaleString()}원</div>
+        <button class="sales-reset-btn" onclick="resetSales()">초기화</button>
+    `;
+}
+
+function resetSales() {
+    if (!confirm("매출 기록을 초기화할까요?")) return;
+    salesLog = [];
+    saveSalesLog();
+    renderSalesPanel();
+}
+
 function saveCollection() {
     localStorage.setItem("collection", JSON.stringify(collection));
 }
@@ -409,6 +454,7 @@ function showScreen(id) {
 window.onload = function () {
 
     updateCollectionUI();
+    renderSalesPanel();
 
     showIngredientUI();
 
@@ -964,6 +1010,7 @@ function renderResult(members_list) {
     }
 
     updateCollectionUI();
+    recordSale();
 }
 
 
@@ -982,7 +1029,9 @@ function updateCollectionUI() {
         `${collection.length} / ${uniqueCount}명`;
 
     const quizBtn = document.getElementById("quizBtn");
-    if (quizBtn) quizBtn.style.display = collection.length >= uniqueCount ? "" : "none";
+    const isComplete = collection.length >= uniqueCount;
+    if (quizBtn) quizBtn.style.display = isComplete ? "" : "none";
+
 }
 
 
@@ -1007,33 +1056,60 @@ function renderCollection() {
         right: uniqueMembers.filter(m => !nixpen20ids.includes(m.id)),
     };
 
-    // 2열 컬럼 래퍼
+    // 3열 레이아웃: 좌(2.0) / 중(이미지) / 우(5.0)
+    const uniqueCount = [...new Set(members.map(m => m.id))].length;
+    const isComplete = collection.length >= uniqueCount;
+
     grid.style.display = "grid";
-    grid.style.gridTemplateColumns = "1fr 1fr";
+    grid.style.gridTemplateColumns = isComplete ? "repeat(3, minmax(0, 1fr))" : "repeat(2, minmax(0, 1fr))";
+    grid.style.maxWidth = isComplete ? "1400px" : "860px";
+    grid.style.margin = "0 auto";
+    if (isComplete) {
+        grid.classList.remove("collection-incomplete");
+    } else {
+        grid.classList.add("collection-incomplete");
+    }
     grid.style.gap = "20px";
-    grid.style.alignItems = "start";
+    grid.style.alignItems = "stretch";
 
-    ["left", "right"].forEach(side => {
-        const col = document.createElement("div");
-        col.className = "collection-col";
+    // 좌열
+    const leftCol = document.createElement("div");
+    leftCol.className = "collection-col";
+    const leftLabel = document.createElement("div");
+    leftLabel.className = "col-label";
+    leftLabel.innerText = "NixPen 2.0";
+    leftCol.appendChild(leftLabel);
+    const leftGrid = document.createElement("div");
+    leftGrid.className = "collection-col-grid";
+    groups["left"].forEach(m => leftGrid.appendChild(collection.includes(m.id) ? makeGotCard(m) : makeLockedCard(m)));
+    leftCol.appendChild(leftGrid);
+    grid.appendChild(leftCol);
 
-        // 컬럼 라벨
-        const label = document.createElement("div");
-        label.className = "col-label";
-        label.innerText = side === "left" ? "NixPen 2.0" : "NixPen 5.0";
-        col.appendChild(label);
+    // 가운데 이미지
+    const centerCol = document.createElement("div");
+    centerCol.id = "collectionComplete";
+    centerCol.className = "collection-col";
+    if (isComplete) centerCol.classList.add("complete-animate");
+    centerCol.innerHTML = `
+        <div class="col-label" style="width:100%;box-sizing:border-box;">🎉 팀원 전원 달성!</div>
+        <div style="position:relative;flex:1;min-height:0;width:100%;">
+            <img src="assets/Background/Background PT.png" alt="팀소개" id="completeImg" style="width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 8px 32px rgba(111,78,55,0.25);cursor:zoom-in;" onclick="const o=document.getElementById('imgOverlay');o.style.display='flex';">
+        </div>
+    `;
+    if (isComplete) grid.appendChild(centerCol);
 
-        const cardGrid = document.createElement("div");
-        cardGrid.className = "collection-col-grid";
-
-        groups[side].forEach(m => {
-            const isGot = collection.includes(m.id);
-            cardGrid.appendChild(isGot ? makeGotCard(m) : makeLockedCard(m));
-        });
-
-        col.appendChild(cardGrid);
-        grid.appendChild(col);
-    });
+    // 우열
+    const rightCol = document.createElement("div");
+    rightCol.className = "collection-col";
+    const rightLabel = document.createElement("div");
+    rightLabel.className = "col-label";
+    rightLabel.innerText = "NixPen 5.0";
+    rightCol.appendChild(rightLabel);
+    const rightGrid = document.createElement("div");
+    rightGrid.className = "collection-col-grid";
+    groups["right"].forEach(m => rightGrid.appendChild(collection.includes(m.id) ? makeGotCard(m) : makeLockedCard(m)));
+    rightCol.appendChild(rightGrid);
+    grid.appendChild(rightCol);
 }
 
 function makeGotCard(m) {
